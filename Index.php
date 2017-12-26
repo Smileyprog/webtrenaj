@@ -480,8 +480,7 @@ function show(state){
            $categoryId = new \Kendo\UI\GridColumn();
            $categoryId->field('category_id')
                       ->title('КатегорияТест')
-                      ->values($categoryArray['data'])
-                      ->filterable($inputcat);
+                      ->values($categoryArray['data']);
            
            $scrollable = new \Kendo\UI\GridScrollable();
            $scrollable->endless(true);
