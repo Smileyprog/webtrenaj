@@ -448,7 +448,8 @@ function show(state){
            
            $dataSource = new \Kendo\Data\DataSource();
            
-         
+         //$("#grid").data("kendoGrid").dataSource.filter()['filters'].push({field: "Name", operator: "eq", value: "Беговая дорожка"})
+
            
            $grid = new \Kendo\UI\Grid('grid');
            
@@ -480,7 +481,8 @@ function show(state){
            $categoryId = new \Kendo\UI\GridColumn();
            $categoryId->field('category_id')
                       ->title('КатегорияТест')
-                      ->values($categoryArray['data']);
+                      ->values($categoryArray['data'])
+                      ->hidden(true);
            
            $scrollable = new \Kendo\UI\GridScrollable();
            $scrollable->endless(true);
@@ -499,16 +501,16 @@ function show(state){
                                     ->model($model)
                                     ->total('total');
 
-            /*$datasourceFilterCategory = new \Kendo\Data\DataSourceFilterItem();
-            $datasourceFilter ->field('category_id')
-                              ->logic('or')
-                              ->operator("eq")
-                              ->value(1);*/
+            $datasourceFilterCategory = new \Kendo\Data\DataSourceFilterItem();
+            $datasourceFilterCategory ->field('category_id')
+                                      ->operator('eq')                              
+                                      ->value(1);
            
            $dataSource->data($resultJson)
                       ->batch(true)
                       ->pageSize(200)
-                      ->schema($schema);
+                      ->schema($schema)
+                      ->addFilterItem($datasourceFilterCategory);
            
            $grid->addColumn($productName, $unitPrice, $unitsInStock, $discontinued, $currency, $categoryId)
                 ->dataSource($dataSource)
@@ -745,6 +747,7 @@ function show(state){
       <?php
       echo (new \Kendo\UI\Button('textButton3'))
       ->content('Сфомировать')
+      ->click('buttClick')
       ->render();
       ?>
     </div>
@@ -1043,7 +1046,14 @@ $( document ).ready(function() {
       kendoConsole.log("The selected product ids are: [" + this.selectedKeyNames().join(", ") + "]");
     }
 
+    function buttClick(arg){
+      var dataGrid = $("#grid").data("kendoGrid");
+      
+      dataGrid.dataSource.filter()['filters'].push({field: "Name", operator: "eq", value: "Беговая дорожка"});
+      dataGrid.dataSource.read();
 
+
+    }
 
     $('#loadpopup').click(function() {
 
