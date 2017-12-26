@@ -1,0 +1,513 @@
+
+
+
+
+.kendoWindow {
+
+position: absolute;
+left: 0;
+top: 0;
+
+}
+
+
+
+/*ОБЩИЕ*/
+
+.tempos {
+
+  padding-bottom: -30px;
+  padding-top: -30px;
+  margin-right: 30px;
+  border: 1px solid grey;
+
+}
+
+.tempos:hover {
+
+cursor:pointer;
+
+}
+
+
+.uppermiddleLeft #textbutton,  .uppermiddleLeft #textbutton1{
+
+margin-right: 30px;
+
+}
+
+
+.uppermiddleLeft #textbutton,  .uppermiddleLeft #textbutton1, .uppermiddleLeft #textbutton2{
+
+width:300px;
+padding: 7px 0px;
+
+}
+
+
+
+.clearfix{
+
+  clear:both;
+
+}
+
+.center {
+
+  text-align: center;
+}
+
+
+.button {
+
+  border:2px solid black;
+  border-radius: 10px;
+  padding: 10px 15px;
+
+}
+
+.button:active {
+
+
+background-color: grey;
+
+}
+
+
+.button:hover {
+
+cursor:pointer;
+
+}
+
+.wraper{
+  margin: auto;
+  width:100%;
+ /* background-color: white; */
+  font-family: 'roboto';
+  background: 'sport/bg.png';
+
+}
+
+.main{
+  margin: auto;
+  width:100%;
+  
+
+}
+
+.head{
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*ВЕРХНИЕ*/
+
+.hello {
+  display: block;
+  width:10%;
+  font-family: "Roboto";
+  margin: 10px auto 20px auto;
+  text-align: center;
+  border-bottom: 1px solid grey;
+  padding: 5px 5px;
+
+}
+
+.upperLeft, .upperMiddle, .upperRight {
+
+  
+  border: 1px double #c7c7c7;
+  margin-top: 2%;
+  margin-bottom: 2%;
+  margin: auto;
+  float: left;
+ /* background: linear-gradient(to top, #f2f2f2, #dedede); */
+background-color: #c2c2c2;
+background-image: linear-gradient(0deg, #f2f2f2 0%, #dedede 100%);
+
+
+
+
+
+}
+
+
+.upperLeft, .upperMiddle {
+
+  margin-right: 2%;/* 20px*/
+
+}
+
+
+
+.upperLeft{
+  margin-left: 3%;
+  width:54%;
+  height: 300px;
+
+}
+
+.upperLeft td{
+
+  padding-top: 30px;
+  padding-left: 30px;
+
+  }
+
+.upperLeftInput {
+
+width:200px;
+border-radius: 10px;
+
+}
+
+.upperMiddle{
+
+  width:38%;
+  height: 300px;
+
+}
+
+
+.upperMiddle .upperMiddleInput {
+
+  width: 20px;
+  border-radius: 100px;
+  height: 20px;
+  width: 20px;
+
+  transform:scale(1.3);
+  cursor:pointer;
+
+}
+
+.upperMiddle .leftside td {
+
+  padding-top: 30px;
+  padding-left: 30px;
+
+}
+
+
+.upperMiddle .leftside {
+
+float: left;
+
+}
+
+.upperMiddle .rightside {
+
+float:right;
+
+}
+
+.upperMiddle .rightside p {
+
+margin-right: 80px;
+margin-top: 30px;
+margin-left: 30px;
+
+}
+
+
+.upperMiddle .button1 {
+
+display: block;
+margin: 20px 30px 20px -20px;
+text-align: center;
+
+
+
+}
+
+.upperMiddle .button2 {
+
+display: block;
+margin: 0px 30px 20px -20px;
+text-align: center;
+
+}
+
+.upperMiddle .eurusd {
+
+margin-left:15px;
+font-size: 15pt;
+font-weight: bold;
+
+}
+
+
+/*.upperRight{
+
+  width:27%;
+  height: 300px;
+
+}
+
+
+.upperRight p {
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 5px;
+  font-weight: bold;
+
+}
+
+.upperRight td{
+
+  padding-top: 30px;
+  padding-left: 30px;
+
+  }
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*СЕРЕДИНА*/
+.middle {
+  text-align: center;
+  margin-top: 2%;
+  margin-bottom: 30px;
+}
+
+/*.middle table {
+  width:100%;
+  height: 100%;
+
+} */
+
+
+
+/*.middle td {
+  border: 1px solid grey;
+  border-radius: 5px;
+
+} */
+
+.middleLeft, .middleRigth {
+
+
+text-align: left;
+margin: 0px 0px 0px 2%;
+/*margin-bottom: 60px; */
+
+}
+
+
+
+
+.middleLeft{
+float: left;
+width: 68%;
+margin-right: 30px;
+margin-left: 3%;
+
+
+}
+
+
+.middleBottom{
+  margin-top: 2%;
+  text-align: center;
+  margin-left: 3%;
+  width: 94%;
+
+
+
+}
+
+
+
+.middleRight{
+  margin-right: 2.8%;
+  float:right;
+  width:23%;
+  height: 400px;
+  border: 1px double #c7c7c7;
+  background-color: #c2c2c2;
+  background-image: linear-gradient(0deg, #f2f2f2 0%, #dedede 100%);
+
+}
+
+.middleRight td{
+  padding-bottom: 30px;
+  padding-right: 30px;
+
+}
+
+.middleRight p{
+  margin-top: 30px;
+  padding-bottom: 30px;
+
+}
+
+.middleRight table{
+
+  padding-left: 30px;
+  padding-bottom: 30px;
+
+}
+
+
+.uppermiddleRight{
+margin-left: 10%;
+text-align: left;
+
+}
+
+.middleRight .button {
+
+background-color: #e0e0e0;
+display: inline;
+margin: 10px 40px 10px 950px;
+
+}
+
+.middleRight .button:hover {
+
+  cursor: pointer;
+
+}
+
+.middleRight .button:active {
+
+  background-color: #FF4500;
+
+}
+
+/*.middleBottom{
+
+  text-align: center;
+  width: 100%;
+ height: 300px; 
+
+
+} */
+
+
+/*.middleBottom table {*/
+  /*width:70%;*/
+  /*height: 100%;*/
+
+/*}*/
+
+
+/*.middleBottom td {*/
+  /*width:50%;*/
+  /*border: 10px solid grey;*/
+
+/*}*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*ФУТЕР*/
+
+.footer{
+
+border-radius: 0px;
+background-color: #e0e0e0;
+width: 70%
+border: 2px solid black;
+height: 10%;
+margin-left: 3%;
+margin-right: 3%;
+
+}
+
+
+.footerFirst, .footerSecond, .footerThird {
+
+margin-top: 2%;
+display:inline-block;
+
+}
+
+.footerFirst {
+
+  float: left;
+  font-weight: bold;
+  margin-right: 1%;
+  margin-left: 3%;
+
+}
+
+.footerSecond {
+
+text-align: center;
+
+}
+
+
+.footerThird {
+
+float: right;
+margin-right: 10%;
+margin-bottom: 60px;
+
+
+}
+
+
+.footerText {
+
+margin-right: 3%;
+}
+
+.footerEv {
+
+ margin-left: -20px;
+  border:1px solid gray;
+  background-color: white;
+  width: 10%;
+  border-radius: 1px;
+  margin-right: 30px;
+}
+
+
+
+.send:hover {
+cursor: pointer;
+
+}
+
+.send:active {
+background-color: grey;
+
+
+}
+

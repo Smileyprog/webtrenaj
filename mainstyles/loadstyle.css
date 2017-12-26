@@ -1,0 +1,80 @@
+body {
+
+    font-family: roboto;
+  }
+
+  .clearfix {
+
+    clear:both;
+  }
+
+
+  #loadPopupWrap{
+width: 100%;
+    display: block;
+    opacity: 0.8;
+
+  }
+  
+/*rgba(1, 1, 1, 0.725);*/
+
+  #loadPopupWindow{
+    width: 90%;
+    margin: 30px auto;
+    display: block;
+    background: #fff;
+    z-index: 200;
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+
+
+  .loadPopUphead {
+    margin-top: 30px;
+    font-size: 14pt;
+    font-weight: bold;
+    margin-bottom: 30px;
+    text-align: center;
+
+  }
+
+  .loadPopUpLeft {
+    float: left;
+    width:50%;
+
+  }
+
+  .loadPopUpRight {
+    float:right;
+    width:50%;
+
+
+  }
+
+
+  .loadPopUpMiddle  {
+    margin-top: 20px;
+    width:100%;
+
+  }
+
+
+
+
+/*KENDO*/
+
+   .loadPopUpLeft .k-autocomplete {
+        width: 70%;
+    }
+
+
+
+
+   .loadPopUpRight .k-button {
+        
+        float:right;
+        margin-top: 25px;
+        padding: 10px 25px;
+
+    }
