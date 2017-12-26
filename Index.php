@@ -215,7 +215,7 @@ function show(state){
                 $select->dataSource(array('Беговые дорожки', 'Степпер'))
                 ->placeholder('Выберите подкатегорию')
                 ->index(0)
-                ->select('UpperSelectsChange')
+                ->close('UpperSelectsChange')
                 ->attr('style', 'width: 100%;');
 
                 echo $select->render();
@@ -232,7 +232,7 @@ function show(state){
               $select1->dataSource(array('AeroFit', 'impulse'))
               ->placeholder('Выберите бренд')
               ->index(0)
-              ->select('UpperSelectsChange')
+              ->close('UpperSelectsChange')
               ->attr('style', 'width: 100%;');
 
               echo $select1->render();
@@ -1023,17 +1023,19 @@ function UpperSelectsChange(e){
 
 var dataGrid = $("#grid").data("kendoGrid");
 
-var hui = $('#kat')[0].value;
-alert(hui);
-alert($('#podkat')[0].value);
-alert($('#brand')[0].value);
-
-//console.log($('input[name="kat_input"]').val())
-//console.log($('input[name="podkat_input"]').val())
-//console.log($('input[name="brand_input"]').val())
-//console.log(arg)
+//console.log($('#kat')[0].value + $('input[name="kat_input"]').val());
+//console.log($('#podkat')[0].value + $('input[name="podkat_input"]').val());
+//console.log($('#brand')[0].value + $('input[name="brand_input"]').val());
 
 
+
+var catVal = $('input[name="kat_input"]').val();
+var catId = $('#kat')[0].value; 
+
+
+
+dataGrid.dataSource.filter()['filters'].push({field: "Категория", operator: "eq", value: catVal});
+dataGrid.dataSource.read();
 //if ( ) {
 //if ($('input[name="kat_input"]').val() == undefined ) {
 
@@ -1052,10 +1054,10 @@ alert($('#brand')[0].value);
 
 
 
-//dataGrid.dataSource.filter()['filters'].push({field: "Name", operator: "eq", value: "Беговая дорожка"});
 
 
-//dataGrid.dataSource.read();
+
+
 
 
 }
