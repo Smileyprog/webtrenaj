@@ -429,14 +429,14 @@ function show(state){
            <?php
            #endregion
     
-           if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        /*   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             if(isset($_POST["refresh"])){
               require_once 'lib/DataSourceResult.php';
              require_once 'lib/Kendo/Autoload.php';
              }
 
-           }
+           }*/
           
            require_once 'lib/DataSourceResult.php';
            require_once 'lib/Kendo/Autoload.php';
