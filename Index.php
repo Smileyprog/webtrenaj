@@ -196,7 +196,7 @@ function show(state){
                     ->filter('contains')
                     ->placeholder('Выберите категорию')
                     ->suggest(true)
-                    ->select('UpperSelectsChange')
+                    ->close('UpperSelectsChange')
                     ->attr('style', 'width: 100%;');
               
               echo $inputcat->render();
@@ -1019,6 +1019,46 @@ echo $gridPopUp->render();
 
     }
 
+function UpperSelectsChange(e){
+
+var dataGrid = $("#grid").data("kendoGrid");
+
+var hui = $('#kat')[0].value;
+alert(hui);
+alert($('#podkat')[0].value);
+alert($('#brand')[0].value);
+
+//console.log($('input[name="kat_input"]').val())
+//console.log($('input[name="podkat_input"]').val())
+//console.log($('input[name="brand_input"]').val())
+//console.log(arg)
+
+
+//if ( ) {
+//if ($('input[name="kat_input"]').val() == undefined ) {
+
+//alert('Пустота')
+
+// }
+
+// else {
+
+//  alert('ВЫБРАНО')
+// }
+
+
+//arg.dataItem.category_id
+//arg.dataItem.Name
+
+
+
+//dataGrid.dataSource.filter()['filters'].push({field: "Name", operator: "eq", value: "Беговая дорожка"});
+
+
+//dataGrid.dataSource.read();
+
+
+}
 
 $( document ).ready(function() {
 
@@ -1048,41 +1088,7 @@ $( document ).ready(function() {
       kendoConsole.log("The selected product ids are: [" + this.selectedKeyNames().join(", ") + "]");
     }
 
-    function UpperSelectsChange(arg){
-
-      var dataGrid = $("#grid").data("kendoGrid");
-
-      //console.log($('input[name="kat_input"]').val())
-      //console.log($('input[name="podkat_input"]').val())
-      //console.log($('input[name="brand_input"]').val())
-      //console.log(arg)
-      
-      
-      //if ( ) {
-      //if ($('input[name="kat_input"]').val() == undefined ) {
-
-//alert('Пустота')
-
-     // }
-
-     // else {
-
-      //  alert('ВЫБРАНО')
-     // }
-      
-
-      //arg.dataItem.category_id
-      //arg.dataItem.Name
-
-
-
-      //dataGrid.dataSource.filter()['filters'].push({field: "Name", operator: "eq", value: "Беговая дорожка"});
-
-
-      //dataGrid.dataSource.read();
-
-
-    }
+   
 
     $('#loadpopup').click(function() {
 
