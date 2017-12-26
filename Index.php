@@ -44,8 +44,13 @@
     if(($userdata['user_hash'] !== $_COOKIE['hash']) or ($userdata['user_id'] !== $_COOKIE['id'])) {
       setcookie("id", "", time() - 3600*24*30*12, "/");
       setcookie("hash", "", time() - 3600*24*30*12, "/");
+<<<<<<< HEAD
       echo "У ваfgс нет доступа к этой странице";
       return;
+=======
+      echo "У вас нет доступа к этой странице";
+      return;   писяписяновыйгод 2.0
+>>>>>>> dee442cc946ce2cc0ef8356186d87e9442788b38
       
     }
     else
