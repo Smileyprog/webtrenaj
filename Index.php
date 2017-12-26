@@ -2,7 +2,7 @@
 <html>
 <head>
 
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Type" content="text/html" charset="utf-8" />
 
   <!-- Скрипты -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
