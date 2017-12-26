@@ -448,7 +448,7 @@ function show(state){
            
            $dataSource = new \Kendo\Data\DataSource();
            
-           echo count($resultJson['data']);
+         
            
            $grid = new \Kendo\UI\Grid('grid');
            
