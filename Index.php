@@ -214,7 +214,6 @@ function show(state){
                 $select = new \Kendo\UI\ComboBox('podkat');
                 $select->dataSource(array('Беговые дорожки', 'Степпер'))
                 ->placeholder('Выберите подкатегорию')
-                ->index(0)
                 ->close('UpperSelectsChange')
                 ->attr('style', 'width: 100%;');
 
@@ -444,7 +443,7 @@ function show(state){
            require_once 'lib/Kendo/Autoload.php';
            $result = new DataSourceResult('mysql:host=localhost;dbname=webWithGoogle', 'root', '');
            
-           $resultJson = $result->read('base', array('id', 'Name', 'Brand', 'Model', 'Price', 'Currency', 'category_id')) ;
+           $resultJson = $result->read('base', array('id', 'Name', 'Brand', 'Model', 'Price', 'Currency', 'category_id', 'subcategory_id')) ;
 
            $categoryArray = $result->read('category', ['category_id as value','Name as text']);
            
@@ -482,8 +481,11 @@ function show(state){
            
            $categoryId = new \Kendo\UI\GridColumn();
            $categoryId->field('category_id')
-                      ->title('КатегорияТест')
                       ->values($categoryArray['data'])
+                      ->hidden(true);
+
+           $subCategoryId = new \Kendo\UI\GridColumn();
+           $subCategoryId->field('subcategory_id')
                       ->hidden(true);
            
            $scrollable = new \Kendo\UI\GridScrollable();
@@ -514,7 +516,7 @@ function show(state){
                       ->schema($schema)
                       ->addFilterItem($datasourceFilterCategory);
            
-           $grid->addColumn($productName, $unitPrice, $unitsInStock, $discontinued, $currency, $categoryId)
+           $grid->addColumn($productName, $unitPrice, $unitsInStock, $discontinued, $currency, $categoryId, $subCategoryId)
                 ->dataSource($dataSource)
                 ->persistSelection(true)
                 ->sortable(true)
@@ -1031,10 +1033,16 @@ var dataGrid = $("#grid").data("kendoGrid");
 
 var catVal = $('input[name="kat_input"]').val();
 var catId = $('#kat')[0].value; 
+var podCatId = $('#podkat')[0].value; 
+//Обнуляем массив
+dataGrid.dataSource.filter()['filters'] = [];
+
+//фильтр на категорию
+dataGrid.dataSource.filter()['filters'].push({field: "category_id", operator: "eq", value: catId});
+dataGrid.dataSource.filter()['filters'].push({field: "subcategory_id", operator: "eq", value: podCatId});
 
 
-
-dataGrid.dataSource.filter()['filters'].push({field: "Категория", operator: "eq", value: catVal});
+//Рендер таблицы с новыми данными
 dataGrid.dataSource.read();
 //if ( ) {
 //if ($('input[name="kat_input"]').val() == undefined ) {
