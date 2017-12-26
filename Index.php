@@ -47,7 +47,7 @@
       echo "У вас нет доступа к этой странице";
       return;   писяписяновыйгод 2.0
       хопмусорок
-    } chaaanges chaaaaaangeeeesssss
+    } chaaanges chaaaaaangeeeessssss
     else
     {
       echo "<div class='hello'>Здравствуйте, ".$userdata['user_login'].".</div>";
