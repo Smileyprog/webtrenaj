@@ -972,16 +972,21 @@ $( document ).ready(function() {
 
 })
 
-    function onClose() {
-        //$("#undo").show();
-    }
+function onClose() {
+  //$("#undo").show();
+}
 
-    $(function() {
-        $("#loadpopup").click(function() {
-            $("#loadPopUpWidget").data("kendoWindow").open();
-            //$("#undo").hide();
-        });
-    });
+$(function() {
+  $("#loadpopup").click(function() {
+      $("#loadPopUpWidget").data("kendoWindow").open();
+      $('.k-widget').css('top','0')
+       $('.k-widget').css('left','0')
+       $('.k-widget').css('right','0')
+       $('.k-widget').css('marginLeft','auto')
+       $('.k-widget').css('marginRight','auto')
+
+  });
+});
 
 
   //КОНЕЦ ВСПЛЫВАЮЩЕГО ОКНА ЗАГРУЗКИ ТОВАРОВ
@@ -1029,7 +1034,7 @@ $( document ).ready(function() {
 
   }
    
-
+/*
     $('#loadpopup').click(function() {
 
       if (window.state == 0) {
@@ -1060,7 +1065,7 @@ $( document ).ready(function() {
       }
     })
 
-  
+  */
 
 
 
