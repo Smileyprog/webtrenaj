@@ -133,6 +133,10 @@
       </tr>
       </table>
     </div>
+
+    <div class="popUpSubmitDiv">
+       <span class="k-button" id="popUpSubmitBut">Добавить</span>
+    </div>
     </div>
     
 
@@ -164,6 +168,7 @@ function show(state){
     <div class="main">
       <div class="head">
         <div class="upperLeft">
+          <div class="upperLeftLeft">
           <table>
             <tr>
               <td>Категория</td>
@@ -271,6 +276,27 @@ function show(state){
               ?></td>
             </tr>
           </table>
+          </div>
+          <div class="upperLeftRight">
+            <table>
+              <tr>
+              <td>Курс Доллара </td> 
+              <td><input type="text" class="dol"><span></td>
+              </tr>
+              <tr>
+              <td>Курс Евро </td> 
+              <td><input type="text" class="eur"><span></td>
+              </tr>
+            </table>
+            <div class="refCursDiv">
+            <?php
+                echo (new \Kendo\UI\Button('refreshCurs'))
+                ->content('Обновить курсы')
+                ->render();
+            ?>
+            <!-- <span class="refreshCurs">Обновить курсы</span> -->
+            </div>
+          </div>
         </div>
 
 
@@ -985,6 +1011,8 @@ $( document ).ready(function() {
 
   $("#loadPopUpWidget").data("kendoWindow").close();
 
+  mainSetCurs()
+
 
 })
 
@@ -1064,6 +1092,31 @@ $(function() {
 
 
   }
+
+
+
+$('#refreshCurs').click(function() {
+
+mainSetCurs()
+
+})
+
+function mainSetCurs() {
+
+$.ajax({
+url: 'curs.php',
+type: "POST",
+dataType: "JSON",
+success: setCurs
+  })
+}
+
+function setCurs(data) {
+
+$('.dol').val(data.doll) 
+$('.eur').val(data.eur) 
+
+}
    
 /*
     $('#loadpopup').click(function() {

@@ -2,7 +2,7 @@
 
   body {
 
-    font-family: roboto;
+    font-family: "Roboto";
   }
 
   .clearfix {
@@ -28,7 +28,7 @@
   #popupWindow{
     border-radius: 10px;
     width: 800px;
-    height: 490px;
+    height: 525px;
     margin: 200px auto;
     display: none;
     background: #fff;
@@ -49,7 +49,7 @@
 
   .mainimg{
 
-    margin: 20px 0 0 50px;
+    margin: 20px 0px 0 100px;
 
   }
 
@@ -57,7 +57,7 @@
   .popupHead {
     font-size: 14pt;
     font-weight: bold;
-    margin-bottom: 30px;
+    margin-bottom: 0px;
     text-align: center;
 
   }
@@ -84,8 +84,10 @@
 
   .popupRight .popupInput {
     border-radius: 5px;
-    width: 200px;
+    width: 205px;
     background-color: rgb(227,227,227);
+    font-family: "ROBOTO";
+    text-align: center;
   }
 
 
@@ -104,18 +106,37 @@
 
   .popupBottom .popupInput {
     border-radius: 5px;
-    width: 70px;
+    width: 74px;
     background-color: rgb(227,227,227);
+    font-family: "ROBOTO";
+    text-align: center;
   }
 
 
   .popupBottom .popupInputDop {
 
     background-color: white;
+    font-size: 11pt;
+    font-weight: bold;
   }
   
 
   .popupSubbotom {
 
     margin-left: 40px;
+  }
+
+
+  .popUpSubmitDiv {
+
+    margin-top:20px;
+    text-align: center;
+
+  }
+
+  #popUpSubmitBut{
+
+width:250px;
+height: 40px;
+
   }
