@@ -175,13 +175,13 @@ function show(state){
               require_once 'lib/Kendo/Autoload.php';
               require_once 'lib/DataSourceResult.php';
               
-                  $result = new DataSourceResult('mysql:host=localhost;dbname=webWithGoogle', 'root', '');
+              $result = new DataSourceResult('mysql:host=localhost;dbname=webWithGoogle', 'root', '');
               
-                  $resultJson = $result->read('category', array('category_id', 'Name'));
+              $resultJson = $result->read('category', array('category_id', 'Name'));
               
-                  $schema = new \Kendo\Data\DataSourceSchema();
-                  $schema->data('data')
-                         ->total('total');
+              $schema = new \Kendo\Data\DataSourceSchema();
+              $schema->data('data')
+                     ->total('total');
               
               $category = new \Kendo\Data\DataSource('katDataSource');
               $category->data($resultJson)
@@ -211,8 +211,20 @@ function show(state){
 
                 require_once 'lib/Kendo/Autoload.php';
 
+
+                $resultJsonSubCategory = $result->read('subcategory', array('subcategory_id','category_id', 'Name'));
+
+                $schema = new \Kendo\Data\DataSourceSchema();
+                $schema->data('data')
+                       ->total('total');
+
+                $subCategory = new \Kendo\Data\DataSource('SubkatDataSource');
+                $subCategory->data($resultJsonSubCategory)
+                         ->schema($schema) 
+                         ->serverFiltering(true);
+  
                 $select = new \Kendo\UI\ComboBox('podkat');
-                $select->dataSource(array('1', 'Степпер'))
+                $select->dataSource($subCategory)
                 ->placeholder('Выберите подкатегорию')
                 ->close('UpperSelectsChange')
                 ->attr('style', 'width: 100%;');
@@ -999,6 +1011,7 @@ $(function() {
     window.state = 0;
 
     function onChange(arg) {
+      //необходимо хранить Selection объет и срвнивать при вызове этой функции
       var entityGrid  = $("#grid").data("kendoGrid");
       var selectedItem = entityGrid.dataItem(entityGrid.select());
 
@@ -1037,7 +1050,7 @@ $(function() {
       var categoryDataSource = $('#kat').data("kendoComboBox").dataSource.data();
       var resultString = categoryDataSource.find(function(element, index, arr ){
         if(element.category_id === array[0].category){
-          return element.Name;
+          return element;
         }
       });
       $('#popupCat')[0].value = resultString.Name;
