@@ -443,7 +443,7 @@ function show(state){
            require_once 'lib/Kendo/Autoload.php';
            $result = new DataSourceResult('mysql:host=localhost;dbname=webWithGoogle', 'root', '');
            
-           $resultJson = $result->read('base', array('id', 'Name', 'Brand', 'Model', 'Price', 'Currency', 'category_id', 'subcategory_id')) ;
+           $resultJson = $result->read('base', array('id', 'Name', 'Brand', 'Model', 'Price', 'Currency', 'category_id', 'subcategory_id', 'ImagePath')) ;
 
            $categoryArray = $result->read('category', ['category_id as value','Name as text']);
            
@@ -487,6 +487,10 @@ function show(state){
            $subCategoryId = new \Kendo\UI\GridColumn();
            $subCategoryId->field('subcategory_id')
                       ->hidden(true);
+
+           $ImagePath = new \Kendo\UI\GridColumn();
+           $ImagePath->field('subcategory_id')
+                      ->hidden(true);
            
            $scrollable = new \Kendo\UI\GridScrollable();
            $scrollable->endless(true);
@@ -516,7 +520,7 @@ function show(state){
                       ->schema($schema)
                       ->addFilterItem($datasourceFilterCategory);
            
-           $grid->addColumn($productName, $unitPrice, $unitsInStock, $discontinued, $currency, $categoryId, $subCategoryId)
+           $grid->addColumn($productName, $unitPrice, $unitsInStock, $discontinued, $currency, $categoryId, $subCategoryId, $ImagePath)
                 ->dataSource($dataSource)
                 ->persistSelection(true)
                 ->sortable(true)
@@ -992,6 +996,8 @@ $( document ).ready(function() {
     function onChange(arg) {
       var entityGrid  = $("#grid").data("kendoGrid");
       var selectedItem = entityGrid.dataItem(entityGrid.select());
+
+      console.log(selectedItem);
       //Инициализируем массив
       var sendArray = [];
 
@@ -999,18 +1005,17 @@ $( document ).ready(function() {
 
       sendArray.push({
       'id':selectedItem.id, 
-      'category':selectedItem.category_id, 
-      'subcategory_id':selectedItem.subcategory_id,
+      'category':selectedItem.category_id, //доработать поиск по словарю
+      'subcategory_id':selectedItem.subcategory_id, //доработать поиск по словарю
       'Name':selectedItem.Name,
       'Brand':selectedItem.Brand,
-      'Model':selectedItem.Model      
+      'Model':selectedItem.Model,
+      'ImagePath': selectedItem.ImagePath   
       });
      
-
+      //передаем массив в функцию заполнения
       setInPopUp(sendArray);
 
-      console.log(sendArray);
-      console.log(selectedItem);
   }
 
   function setInPopUp(array){
@@ -1021,10 +1026,11 @@ $( document ).ready(function() {
       $('#popupName')[0].value = array[0].Name;
       $('#popupBrand')[0].value = array[0].Brand;
       $('#popupModel')[0].value = array[0].Model;
+      $('.mainimg')[0].src = array[0].ImagePath;
 
       show('block');
 
-
+//колиество позиций (моделей)
 
 
   }
