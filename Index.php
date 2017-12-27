@@ -212,7 +212,7 @@ function show(state){
                 require_once 'lib/Kendo/Autoload.php';
 
                 $select = new \Kendo\UI\ComboBox('podkat');
-                $select->dataSource(array('Беговые дорожки', 'Степпер'))
+                $select->dataSource(array('1', 'Степпер'))
                 ->placeholder('Выберите подкатегорию')
                 ->close('UpperSelectsChange')
                 ->attr('style', 'width: 100%;');
@@ -523,6 +523,7 @@ function show(state){
                 ->navigatable(true)
                 ->change('onChange')
                 ->scrollable($scrollable)
+                ->selectable('row')
                 ->attr('style', 'height:400px');
            
            
@@ -530,9 +531,8 @@ function show(state){
           ?>
 
           <script>
-            function onChange(arg) {
-              kendoConsole.log("The selected product ids are: [" + this.selectedKeyNames().join(", ") + "]");
-            }
+       
+          
           </script>
           <div class="box wide">
 
@@ -622,103 +622,44 @@ function show(state){
 
     <div class="middleBottom">
       <?php
-//require_once 'lib/Kendo/DataSourceResult.php';
-/*
+require_once 'lib/DataSourceResult.php';
 
-      if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        header('Content-Type: application/json');
 
-        $request1 = json_decode(file_get_contents('php://input'));
+    
 
-        $result = new DataSourceResult('mysql:host=localhost;dbname=webWithGoogle', 'root', '');
 
-        echo json_encode($result1->read('Customers1', array('CustomerID1', 'ContactName1', 'ContactTitle1', 'CompanyName1', 'Country1'), $request1));
+$dataToProposal = json_decode('{"data":[{"sel":"df"},{"sel":"kaka"}]}');
 
-        exit;
-      }
 
-      $transport1 = new \Kendo\Data\DataSourceTransport();
+$model = new \Kendo\Data\DataSourceSchemaModel();
 
-      $read1 = new \Kendo\Data\DataSourceTransportRead();
 
-      $read1->url('index.php')
-      ->contentType('application/json')
-      ->type('POST');
+$schema = new \Kendo\Data\DataSourceSchema();
+$schema->data('data')
+      ->model($model);
 
-      $transport1 ->read($read1)
-      ->parameterMap('function(data) {
-        return kendo.stringify(data);
-      }');
+$dataSourceProp = new \Kendo\Data\DataSource('newData');
 
-      $model1 = new \Kendo\Data\DataSourceSchemaModel();
+$dataSourceProp->data($dataToProposal)
+          ->pageSize(100)
+          ->schema($schema);
 
-      $contactNameField1 = new \Kendo\Data\DataSourceSchemaModelField('ContactName1');
-      $contactNameField1->type('string');
+$gridPopUp = new \Kendo\UI\Grid('gridPopUp');
 
-      $contactTitleField1 = new \Kendo\Data\DataSourceSchemaModelField('ContactTitle1');
-      $contactTitleField1->type('string');
+$selectColumn = new \Kendo\UI\GridColumn();
+$selectColumn->field('sel')
+            ->title('Показываем')
+            ->width(50);
 
-      $companyNameField1 = new \Kendo\Data\DataSourceSchemaModelField('CompanyName1');
-      $companyNameField1->type('string');
 
-      $countryField1 = new \Kendo\Data\DataSourceSchemaModelField('Country1');
-      $countryField1->type('string');
+$gridPopUp->addColumn($selectColumn)
+    ->dataSource($dataSourceProp)
+    ->persistSelection(true)
+    ->sortable(true)
+    ->attr('style', 'height:270px');
 
-      $model1->addField($contactNameField1)
-      ->addField($contactTitleField1)
-      ->addField($companyNameField1)
-      ->addField($countryField1);
 
-      $schema1 = new \Kendo\Data\DataSourceSchema();
-      $schema1->data('data')
-      ->errors('errors')
-      ->groups('groups')
-      ->model($model1)
-      ->total('total');
-
-      $dataSource1 = new \Kendo\Data\DataSource();
-
-      $dataSource1->transport($transport1)
-      ->pageSize(10)
-      ->serverPaging(true)
-      ->serverSorting(true)
-      ->serverGrouping(true)
-      ->schema($schema1);
-
-      $grid1 = new \Kendo\UI\Grid('grid1');
-
-      $contactName1 = new \Kendo\UI\GridColumn();
-      $contactName1->field('ContactName')
-      ->template("<div class='customer-photo'style='background-image: url(../content/web/Customers/#:data.CustomerID#.jpg);'></div><div class='customer-name'>#: ContactName #</div>")
-      ->title('Contact Name')
-      ->width(240);
-
-      $contactTitle1 = new \Kendo\UI\GridColumn();
-      $contactTitle1->field('ContactTitle')
-      ->title('Contact Title');
-
-      $companyName1 = new \Kendo\UI\GridColumn();
-      $companyName1->field('CompanyName')
-      ->title('Company Name');
-
-      $Country1 = new \Kendo\UI\GridColumn();
-      $Country1->field('Country')
-      ->width(150);
-
-      $pageable1 = new Kendo\UI\GridPageable();
-      $pageable1->refresh(true)
-      ->pageSizes(true)
-      ->buttonCount(5);
-
-      $grid1->addColumn($contactName1, $contactTitle1, $companyName1, $Country1)
-      ->dataSource($dataSource1)
-      ->sortable(true)
-      ->groupable(true)
-      ->pageable($pageable1)
-      ->attr('style', 'height:400px');
-
-      echo $grid1->render();
-      */
+echo $gridPopUp->render();
       ?>
     </div>
 
@@ -751,7 +692,6 @@ function show(state){
       <?php
       echo (new \Kendo\UI\Button('textButton3'))
       ->content('Сфомировать')
-      ->click('buttClick')
       ->render();
       ?>
     </div>
@@ -841,91 +781,43 @@ $window->title('Загрузка товара')
     <div class="loadPopUpMiddle">
       
  <?php
-      if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    header('Content-Type: application/json');
+ /*
+ require_once 'lib/DataSourceResult.php';
+ require_once 'lib/Kendo/Autoload.php';
 
-    $request = json_decode(file_get_contents('php://input'));
 
-    $result = new DataSourceResult('sqlite:..//sample.db');
+$dataToProposal = json_decode('{"data":[{"sel":"df"},{"sel":"kaka"}]}');
 
-    $type = $_GET['type'];
-
-    echo json_encode($result->read('Products', array('ProductID', 'ProductName', 'UnitPrice', 'UnitsInStock', 'Discontinued'), $request));
-
-    exit;
-}
-
-$transport = new \Kendo\Data\DataSourceTransport();
-
-$read = new \Kendo\Data\DataSourceTransportRead();
-
-$read->url('checkbox-selection.php?type=read')
-     ->contentType('application/json')
-     ->type('POST');
-
-$transport->read($read);
 
 $model = new \Kendo\Data\DataSourceSchemaModel();
-$model->id('ProductID');
+
 
 $schema = new \Kendo\Data\DataSourceSchema();
 $schema->data('data')
-       ->model($model)
-       ->total('total');
+       ->model($model);
 
-$dataSource = new \Kendo\Data\DataSource();
+$dataSourceProp = new \Kendo\Data\DataSource('newData');
 
-$dataSource->transport($transport)
-           ->pageSize(10)
+$dataSourceProp->data($dataToProposal)
+           ->pageSize(100)
            ->schema($schema);
 
 $gridPopUp = new \Kendo\UI\Grid('gridPopUp');
 
 $selectColumn = new \Kendo\UI\GridColumn();
-$selectColumn->selectable(true)
+$selectColumn->field('sel')
+             ->title('Показываем')
              ->width(50);
 
-$trashCan = new \Kendo\UI\GridColumn();
-$trashCan->field('asd')
-         ->title('asddd');
 
-
-
-$edit = new \Kendo\UI\GridColumn();
-$edit->field('adddd')
-     ->title('adddddd');
-
-
-
-$productName = new \Kendo\UI\GridColumn();
-$productName->field('ProductName')
-            ->title('Product Name');
-
-$unitPrice = new \Kendo\UI\GridColumn();
-$unitPrice->field('UnitPrice')
-          ->format('{0:c}')
-          ->width(120)
-          ->title('Unit Price');
-
-$unitsInStock = new \Kendo\UI\GridColumn();
-$unitsInStock->field('UnitsInStock')
-          ->width(120)
-          ->title('Units In Stock');
-
-$discontinued = new \Kendo\UI\GridColumn();
-$discontinued->field('Discontinued')
-          ->width(120);
-
-$gridPopUp->addColumn($selectColumn,$productName, $unitPrice, $unitsInStock, $discontinued)
-     ->dataSource($dataSource)
+$gridPopUp->addColumn($selectColumn)
+     ->dataSource($dataSourceProp)
      ->persistSelection(true)
-     ->sortable(true)
-     ->change('onChange')
      ->pageable(true)
-     ->attr('style', 'height:270px');;
+     ->attr('style', 'height:270px');
 
 
-echo $gridPopUp->render();
+echo $gridPopUp->render(); */
 ?>
 
 
@@ -1038,7 +930,10 @@ var podCatId = $('#podkat')[0].value;
 dataGrid.dataSource.filter()['filters'] = [];
 
 //фильтр на категорию
+if(catId != '')
 dataGrid.dataSource.filter()['filters'].push({field: "category_id", operator: "eq", value: catId});
+
+if(podCatId != '')
 dataGrid.dataSource.filter()['filters'].push({field: "subcategory_id", operator: "eq", value: podCatId});
 
 
@@ -1095,9 +990,44 @@ $( document ).ready(function() {
     window.state = 0;
 
     function onChange(arg) {
-      kendoConsole.log("The selected product ids are: [" + this.selectedKeyNames().join(", ") + "]");
-    }
+      var entityGrid  = $("#grid").data("kendoGrid");
+      var selectedItem = entityGrid.dataItem(entityGrid.select());
+      //Инициализируем массив
+      var sendArray = [];
 
+      //Заполняем массив из события (ассоциативный)
+
+      sendArray.push({
+      'id':selectedItem.id, 
+      'category':selectedItem.category_id, 
+      'subcategory_id':selectedItem.subcategory_id,
+      'Name':selectedItem.Name,
+      'Brand':selectedItem.Brand,
+      'Model':selectedItem.Model      
+      });
+     
+
+      setInPopUp(sendArray);
+
+      console.log(sendArray);
+      console.log(selectedItem);
+  }
+
+  function setInPopUp(array){
+    console.log(array);
+      $('#popupId')[0].value = array[0].id;
+      $('#popupCat')[0].value = array[0].category;
+      $('#popupSubCat')[0].value = array[0].subcategory_id;
+      $('#popupName')[0].value = array[0].Name;
+      $('#popupBrand')[0].value = array[0].Brand;
+      $('#popupModel')[0].value = array[0].Model;
+
+      show('block');
+
+
+
+
+  }
    
 
     $('#loadpopup').click(function() {
