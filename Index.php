@@ -183,7 +183,7 @@ function show(state){
                   $schema->data('data')
                          ->total('total');
               
-              $category = new \Kendo\Data\DataSource();
+              $category = new \Kendo\Data\DataSource('katDataSource');
               $category->data($resultJson)
                        ->schema($schema) 
                        ->serverFiltering(true);
@@ -1033,6 +1033,18 @@ $(function() {
       $('#popupModel')[0].value = array[0].Model;
       $('.mainimg')[0].src = array[0].ImagePath;
 
+      //Блок установки категории по словарю
+      var categoryDataSource = $('#kat').data("kendoComboBox").dataSource.data();
+      var resultString = categoryDataSource.find(function(element, index, arr ){
+        if(element.category_id === array[0].category){
+          return element.Name;
+        }
+      });
+      $('#popupCat')[0].value = resultString.Name;
+
+      //Блок установки субкатегории по словарю
+      //доделать
+      
       show('block');
 
 //колиество позиций (моделей)
