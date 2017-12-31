@@ -260,6 +260,7 @@ function show(state){
               ->placeholder('Выберите бренд')
               ->index(0)
               ->close('UpperSelectsChange')
+              ->open('onOpenSubcategory')
               ->attr('style', 'width: 100%;');
 
               echo $select1->render();
@@ -572,8 +573,7 @@ function show(state){
 
             $datasourceFilterCategory = new \Kendo\Data\DataSourceFilterItem();
             $datasourceFilterCategory ->field('category_id')
-                                      ->operator('eq')                              
-                                      ->value(1);
+                                      ->operator('isnotnull');
            
            $dataSource->data($resultJson)
                       ->batch(true)
@@ -978,7 +978,17 @@ echo $gridPopUp->render(); */
 
     }
 
-function UpperSelectsChange(e){
+
+  function onOpenSubcategory(e){
+    var filterCheckBoxSubcategory = [];
+
+    if(catId != '')
+    dataGrid.dataSource.filter()['filters'].push({field: "category_id", operator: "eq", value: catId});
+
+  }
+
+
+  function UpperSelectsChange(e){
 
 var dataGrid = $("#grid").data("kendoGrid");
 
