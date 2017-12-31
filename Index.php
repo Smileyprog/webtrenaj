@@ -241,7 +241,7 @@ function show(state){
                 $select->dataSource($subCategory)
                 ->placeholder('Выберите подкатегорию')
                 ->dataTextField('Name')
-                ->dataValueField('subCategory_id')
+                ->dataValueField('subcategory_id')
                 ->close('UpperSelectsChange')
                 ->attr('style', 'width: 100%;');
 
@@ -990,7 +990,7 @@ var dataGrid = $("#grid").data("kendoGrid");
 
 var catVal = $('input[name="kat_input"]').val();
 var catId = $('#kat')[0].value; 
-var podCatId = $('#podkat')[0].value; 
+var podCatId = $('#podkat')[0].value;
 
 console.log(podCatId);
 
