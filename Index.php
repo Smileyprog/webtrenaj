@@ -127,7 +127,7 @@
             <td><input type="text" id="popupCount" class="popupInput popupInputDop"></td>
             <td><input type="text" id="popupSumm" class="popupInput"></td>
             <td><input type="text" id="popupPercent" class="popupInput popupInputDop"></td>
-            <td><input type="text" id="popupDiscount" class="popupInput"></td>
+            <td class="popUpInputLast"><input type="text" id="popupDiscount" class="popupInput"></td>
           </tr>
         </table>
       </div>

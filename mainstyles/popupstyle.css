@@ -106,10 +106,14 @@
 
   .popupBottom .popupInput {
     border-radius: 5px;
-    width: 74px;
+    width: 92px;
     background-color: rgb(227,227,227);
     font-family: "ROBOTO";
     text-align: center;
+  }
+
+  .popupBottom .popUpInputLast {
+    padding-right: 0px;
   }
 
 
@@ -131,12 +135,6 @@
     margin: auto;
   }
 
-
-  .popUpSubSubbotom {
-
-
-
-  }
 
   .popUpSubSubbotom p {
 
@@ -171,7 +169,7 @@ margin-right:40px;
 
   .popUpSubmitDiv {
 
-    margin-top:80px;
+    margin-top:115px;
     text-align: center;
     font-weight: bold;
 
