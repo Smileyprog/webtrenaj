@@ -231,6 +231,8 @@ function show(state){
                 $select = new \Kendo\UI\ComboBox('podkat');
                 $select->dataSource($subCategory)
                 ->placeholder('Выберите подкатегорию')
+                ->dataTextField('Name')
+                ->dataValueField('subCategory_id')
                 ->close('UpperSelectsChange')
                 ->attr('style', 'width: 100%;');
 
@@ -481,9 +483,10 @@ function show(state){
            require_once 'lib/Kendo/Autoload.php';
            $result = new DataSourceResult('mysql:host=localhost;dbname=webWithGoogle', 'root', '');
            
-           $resultJson = $result->read('base', array('id', 'Name', 'Brand', 'Model', 'Price', 'Currency', 'category_id', 'subcategory_id', 'ImagePath')) ;
+           $resultJson = $result->read('base', array('id', 'Name', 'Brand', 'Model', 'Price', 'Currency', 'category_id', 'subcategory_id', 'ImagePath', 'Avability', 'Additional' )) ;
 
            $categoryArray = $result->read('category', ['category_id as value','Name as text']);
+           $subCategoryArray = $result->read('category', ['subcategory_id as value','Name as text']);
            
            $dataSource = new \Kendo\Data\DataSource();
            
@@ -491,7 +494,8 @@ function show(state){
 
            
            $grid = new \Kendo\UI\Grid('grid');
-           
+
+           // Блок колонок для заполнения Таблицы
            $productName = new \Kendo\UI\GridColumn();
            $productName->field('Name')
                        ->title('Название')
@@ -520,16 +524,26 @@ function show(state){
            $categoryId = new \Kendo\UI\GridColumn();
            $categoryId->field('category_id')
                       ->values($categoryArray['data'])
-                      ->hidden(true);
+                      ->hidden(true);                      
 
            $subCategoryId = new \Kendo\UI\GridColumn();
            $subCategoryId->field('subcategory_id')
-                      ->hidden(true);
+                         ->hidden(true)
+                         ->values($subCategoryArray['data']);
 
            $ImagePath = new \Kendo\UI\GridColumn();
            $ImagePath->field('subcategory_id')
                       ->hidden(true);
-           
+
+           $avability = new \Kendo\UI\GridColumn();
+           $avability ->field('Avability')
+                        ->hidden(true);
+
+           $additional = new \Kendo\UI\GridColumn();
+           $additional ->field('Additional')
+                       ->hidden(true);
+
+                      
            $scrollable = new \Kendo\UI\GridScrollable();
            $scrollable->endless(true);
 
@@ -558,7 +572,7 @@ function show(state){
                       ->schema($schema)
                       ->addFilterItem($datasourceFilterCategory);
            
-           $grid->addColumn($productName, $unitPrice, $unitsInStock, $discontinued, $currency, $categoryId, $subCategoryId, $ImagePath)
+           $grid->addColumn($productName, $unitPrice, $unitsInStock, $discontinued, $currency, $categoryId, $subCategoryId, $ImagePath, $avability, $additional )
                 ->dataSource($dataSource)
                 ->persistSelection(true)
                 ->sortable(true)
@@ -968,6 +982,9 @@ var dataGrid = $("#grid").data("kendoGrid");
 var catVal = $('input[name="kat_input"]').val();
 var catId = $('#kat')[0].value; 
 var podCatId = $('#podkat')[0].value; 
+
+console.log(podCatId);
+
 //Обнуляем массив
 dataGrid.dataSource.filter()['filters'] = [];
 
@@ -1051,12 +1068,16 @@ $(function() {
 
       sendArray.push({
       'id':selectedItem.id, 
-      'category':selectedItem.category_id, //доработать поиск по словарю
+      'category':selectedItem.category_id, 
       'subcategory_id':selectedItem.subcategory_id, //доработать поиск по словарю
       'Name':selectedItem.Name,
       'Brand':selectedItem.Brand,
+      'Price': selectedItem.Price,
+      'Currency': selectedItem.Currency,
       'Model':selectedItem.Model,
-      'ImagePath': selectedItem.ImagePath   
+      'ImagePath': selectedItem.ImagePath, 
+      'Avability': selectedItem.Avability,
+      'Additional': selectedItem.Additional
       });
      
       //передаем массив в функцию заполнения
@@ -1073,6 +1094,10 @@ $(function() {
       $('#popupBrand')[0].value = array[0].Brand;
       $('#popupModel')[0].value = array[0].Model;
       $('.mainimg')[0].src = array[0].ImagePath;
+      $('#popupPrice')[0].value = array[0].Price;
+      $('#popupDoleur')[0].value = array[0].Currency;
+
+
 
       //Блок установки категории по словарю
       var categoryDataSource = $('#kat').data("kendoComboBox").dataSource.data();
@@ -1084,8 +1109,7 @@ $(function() {
       $('#popupCat')[0].value = resultString.Name;
 
       //Блок установки субкатегории по словарю
-      //доделать
-      
+      //доделать      
       show('block');
 
 //колиество позиций (моделей)
