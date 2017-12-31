@@ -210,6 +210,7 @@ function show(state){
                     ->filter('contains')
                     ->placeholder('Выберите категорию')
                     ->suggest(true)
+                    ->change('onOpenSubcategory')
                     ->close('UpperSelectsChange')
                     ->attr('style', 'width: 100%;');
               
@@ -232,10 +233,17 @@ function show(state){
                 $schema->data('data')
                        ->total('total');
 
-                $subCategory = new \Kendo\Data\DataSource('SubkatDataSource');
+                $datasourceFilterSubCategoryChoose = new \Kendo\Data\DataSourceFilterItem();
+                $datasourceFilterSubCategoryChoose -> field('category_id')
+                                                   -> operator('isnotnull');
+
+                
+                $subCategory = new \Kendo\Data\DataSource();
                 $subCategory->data($resultJsonSubCategory)
+                         ->batch(true)
                          ->schema($schema) 
-                         ->serverFiltering(true);
+                         ->serverFiltering(false)
+                         ->addFilterItem($datasourceFilterSubCategoryChoose);
   
                 $select = new \Kendo\UI\ComboBox('podkat');
                 $select->dataSource($subCategory)
@@ -243,6 +251,8 @@ function show(state){
                 ->dataTextField('Name')
                 ->dataValueField('subcategory_id')
                 ->close('UpperSelectsChange')
+                
+                //->open('onOpenSubcategory')
                 ->attr('style', 'width: 100%;');
 
                 echo $select->render();
@@ -260,7 +270,7 @@ function show(state){
               ->placeholder('Выберите бренд')
               ->index(0)
               ->close('UpperSelectsChange')
-              ->open('onOpenSubcategory')
+              
               ->attr('style', 'width: 100%;');
 
               echo $select1->render();
@@ -980,10 +990,17 @@ echo $gridPopUp->render(); */
 
 
   function onOpenSubcategory(e){
-    var filterCheckBoxSubcategory = [];
+    
+    var catId = $('#kat')[0].value; 
+    var chooser = $('#podkat').data("kendoComboBox").dataSource.filter()['filters'];
+  
+    console.log(catId);
 
-    if(catId != '')
-    dataGrid.dataSource.filter()['filters'].push({field: "category_id", operator: "eq", value: catId});
+    if(catId != ''){
+    chooser = [{field: "category_id", operator: "eq", value: String(catId)}];
+    $('#podkat').data("kendoComboBox").dataSource.read();
+  }
+
 
   }
 
