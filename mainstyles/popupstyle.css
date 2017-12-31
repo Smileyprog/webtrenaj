@@ -28,8 +28,8 @@
   #popupWindow{
     border-radius: 10px;
     width: 800px;
-    height: 640px;
-    margin: 110px auto;
+    height: 725px;
+    margin: 60px auto;
     display: none;
     background: #fff;
     z-index: 200;
@@ -144,8 +144,10 @@
   }
 
   .popUpSubSubbotom textarea {
-
-    border-radius: 5px;
+    resize: none;
+    font-family: 'Roboto';
+    border-radius: 15px;
+    width:320px;
     background-color: rgb(227,227,227);
 
   }
@@ -169,7 +171,7 @@ margin-right:40px;
 
   .popUpSubmitDiv {
 
-    margin-top:115px;
+    margin-top:200px;
     text-align: center;
     font-weight: bold;
 

@@ -134,11 +134,11 @@
     <div class="popUpSubSubbotom">
       <div class="subLeft">
         <p>Наличие</p>
-        <p><textarea rows="7" cols="30" name="popupNalichie"></textarea></p>
+        <p><textarea readonly rows="7" cols="30" name="popupNalichie"></textarea></p>
       </div>
       <div class="subRight">
         <p>Дополнительная информация</p>
-        <p><textarea rows="7" cols="30" name="popupDopInfo"></textarea></p>
+        <p><textarea readonly rows="7" cols="30" name="popupDopInfo"></textarea></p>
       <div class="clearfix"></div>
 
       </div>
