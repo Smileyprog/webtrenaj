@@ -112,28 +112,37 @@
 
     <div class="popupBottom">
       <div class="popupSubbotom">
-      <table>
-      <tr>
-        <td>Цена</td>
-        <td>Валюта</td>
-        <td>Наличие</td>
-        <td>Кол-во</td>
-        <td>Сумма</td>
-        <td>%</td>
-        <td>Скидка</td>
-      </tr>
-      <tr>
-        <td><input type="text" id="popupPrice" class="popupInput"></td>
-        <td><input type="text" id="popupDoleur" class="popupInput"></td>
-        <td><input type="text" id="popupNal" class="popupInput"></td>
-        <td><input type="text" id="popupCount" class="popupInput popupInputDop"></td>
-        <td><input type="text" id="popupSumm" class="popupInput"></td>
-        <td><input type="text" id="popupPercent" class="popupInput popupInputDop"></td>
-        <td><input type="text" id="popupDiscount" class="popupInput"></td>
-      </tr>
-      </table>
-    </div>
+        <table>
+          <tr>
+            <td>Цена</td>
+            <td>Валюта</td>
+            <td>Кол-во</td>
+            <td>Сумма</td>
+            <td>%</td>
+            <td>Скидка</td>
+          </tr>
+          <tr>
+            <td><input type="text" id="popupPrice" class="popupInput"></td>
+            <td><input type="text" id="popupDoleur" class="popupInput"></td>
+            <td><input type="text" id="popupCount" class="popupInput popupInputDop"></td>
+            <td><input type="text" id="popupSumm" class="popupInput"></td>
+            <td><input type="text" id="popupPercent" class="popupInput popupInputDop"></td>
+            <td><input type="text" id="popupDiscount" class="popupInput"></td>
+          </tr>
+        </table>
+      </div>
+    <div class="popUpSubSubbotom">
+      <div class="subLeft">
+        <p>Наличие</p>
+        <p><textarea rows="7" cols="30" name="popupNalichie"></textarea></p>
+      </div>
+      <div class="subRight">
+        <p>Дополнительная информация</p>
+        <p><textarea rows="7" cols="30" name="popupDopInfo"></textarea></p>
+      <div class="clearfix"></div>
 
+      </div>
+    </div> 
     <div class="popUpSubmitDiv">
        <span class="k-button" id="popUpSubmitBut">Добавить</span>
     </div>
