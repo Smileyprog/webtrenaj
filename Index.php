@@ -1016,11 +1016,15 @@ price = Number(price)
 
 
 var newSumm = price * count
-
+console.log(newSumm)
 
 newSumm = newSumm.toFixed(2)
-newSumm = String(newSumm).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ')
-newSumm = newSumm.replace(".",",");
+console.log(newSumm)
+newSumm = Number.parseFloat(newSumm);
+console.log(newSumm)
+
+//String(newSumm).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ')
+//newSumm = newSumm.replace(".",",");
 
 
 $('#popupSumm').val(newSumm)
