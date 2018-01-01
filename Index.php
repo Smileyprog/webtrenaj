@@ -82,27 +82,27 @@
       <table>
         <tr>
           <td>ID</td>
-          <td><input type="text" class="popupInput" id="popupId"></td>
+          <td><input type="text" class="popupInput" id="popupId" disabled></td>
         </tr>
         <tr>
           <td>Категория</td>
-          <td><input type="text" class="popupInput" id="popupCat"></td>
+          <td><input type="text" class="popupInput" id="popupCat" disabled></td>
         </tr>
         <tr>
           <td>Подкатегория</td>
-          <td><input type="text" class="popupInput" id="popupSubCat"></td>
+          <td><input type="text" class="popupInput" id="popupSubCat" disabled></td>
         </tr>
         <tr>
           <td>Название</td>
-          <td><input type="text" class="popupInput" id="popupName"></td>
+          <td><input type="text" class="popupInput" id="popupName" disabled></td>
         </tr>
         <tr>
           <td>Бренд</td>
-          <td><input type="text" class="popupInput" id="popupBrand"></td>
+          <td><input type="text" class="popupInput" id="popupBrand" disabled></td>
         </tr>
         <tr>
           <td>Модель</td>
-          <td><input type="text" class="popupInput" id="popupModel"></td>
+          <td><input type="text" class="popupInput" id="popupModel" disabled></td>
         </tr>
       </table>
     </div>
@@ -122,12 +122,12 @@
             <td>Скидка</td>
           </tr>
           <tr>
-            <td><input type="text" id="popupPrice" class="popupInput"></td>
-            <td><input type="text" id="popupDoleur" class="popupInput"></td>
+            <td><input type="text" id="popupPrice" class="popupInput" disabled></td>
+            <td><input type="text" id="popupDoleur" class="popupInput" disabled></td>
             <td><input type="text" id="popupCount" class="popupInput popupInputDop"></td>
-            <td><input type="text" id="popupSumm" class="popupInput"></td>
+            <td><input type="text" id="popupSumm" class="popupInput" disabled></td>
             <td><input type="text" id="popupPercent" class="popupInput popupInputDop"></td>
-            <td class="popUpInputLast"><input type="text" id="popupDiscount" class="popupInput"></td>
+            <td class="popUpInputLast"><input type="text" id="popupDiscount" class="popupInput disabled"></td>
           </tr>
         </table>
       </div>
@@ -979,6 +979,30 @@ echo $gridPopUp->render(); */
 
 
 <script type="text/javascript">
+
+
+  $('#popupCount').keyup(function() {
+
+  var price =  $('#popupPrice').val()
+  var count = $('#popupCount').val()
+
+
+
+price = price.replace(",",".");
+
+  price = Number(price)
+  count = Number(count)
+
+console.log(price)
+console.log(count)
+
+  var newSumm = price * count
+   $('#popupSumm').val(newSumm)
+
+
+  })
+
+
 
 
     // ПОКАЗ ВСПЛЫВАЮЩЕГО ОКНА ЗАГРУЗКИ ТОВАРОВ
