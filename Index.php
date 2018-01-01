@@ -134,17 +134,17 @@
     <div class="popUpSubSubbotom">
       <div class="subLeft">
         <p>Наличие</p>
-        <p><textarea readonly rows="7" cols="30" name="popupNalichie"></textarea></p>
+        <p><textarea readonly rows="7" cols="30" name="popupNalichie" id="popupNalichie"></textarea></p>
       </div>
       <div class="subRight">
         <p>Дополнительная информация</p>
-        <p><textarea readonly rows="7" cols="30" name="popupDopInfo"></textarea></p>
+        <p><textarea readonly rows="7" cols="30" name="popupDopInfo" id="popupDopInfo"></textarea></p>
       <div class="clearfix"></div>
 
       </div>
     </div> 
     <div class="popUpSubmitDiv">
-       <span class="k-button" id="popUpSubmitBut">Добавить</span>
+       <span class="k-button" onclick="addInCart()" id="popUpSubmitBut">Добавить</span>
     </div>
     </div>
     
@@ -209,7 +209,7 @@ function show(state){
                     ->dataValueField('category_id')
                     ->filter('contains')
                     ->placeholder('Выберите категорию')
-                    ->suggest(true)
+                    ->suggest(false)
                     ->change('onOpenSubcategory')
                     ->close('UpperSelectsChange')
                     ->attr('style', 'width: 100%;');
@@ -700,13 +700,62 @@ function show(state){
 require_once 'lib/DataSourceResult.php';
 
 
-    
-
-
-$dataToProposal = json_decode('{"data":[{"sel":"df"},{"sel":"kaka"}]}');
+$dataToProposal = json_decode('{"data":[]}');
 
 
 $model = new \Kendo\Data\DataSourceSchemaModel();
+
+$productNameResult = new \Kendo\UI\GridColumn();
+$productNameResult->field('Name')
+            ->title('Название')
+            ->template("<div onclick=\"justATest('#:data.PhotoPath#')\" class='model-photo'style='background-image: url(#:data.PhotoPath#);'></div><div class='model-name'>#: Name #</div>")            
+            ->width(200);
+
+$productBrandResult = new \Kendo\UI\GridColumn();
+$productBrandResult->field('Brand')
+            ->title('Бренд')
+            ->width(300);
+
+$productModelResult = new \Kendo\UI\GridColumn();
+$productModelResult->field('Model')
+            ->title('Модель')
+            ->width(300);
+
+$productPriceResult = new \Kendo\UI\GridColumn();
+$productPriceResult->field('Price')
+            ->title('Цена')
+            ->width(60);
+
+$productCurrencyResult = new \Kendo\UI\GridColumn();
+$productCurrencyResult->field('Currency')
+            ->title('Валюта')
+            ->width(40);
+
+$productCountResult = new \Kendo\UI\GridColumn();
+$productCountResult->field('Count')
+                    ->title('Количество')
+                    ->width(700);
+
+$productAmountResult = new \Kendo\UI\GridColumn();
+$productAmountResult->field('Summ')
+                    ->title('Сумма')
+                    ->width(700);
+
+$productPercentResult = new \Kendo\UI\GridColumn();
+$productPercentResult->field('Percent')
+                    ->title('%')
+                    ->width(700);
+
+$productDiscountResult = new \Kendo\UI\GridColumn();
+$productDiscountResult->field('Discount')
+                    ->title('Скидка')
+                    ->width(700);
+
+$productTotalResult = new \Kendo\UI\GridColumn();
+$productTotalResult->field('Total')
+                    ->title('Всего')
+                    ->width(700);
+
 
 
 $schema = new \Kendo\Data\DataSourceSchema();
@@ -727,7 +776,8 @@ $selectColumn->field('sel')
             ->width(50);
 
 
-$gridPopUp->addColumn($selectColumn)
+$gridPopUp->addColumn($productNameResult, $productBrandResult,$productModelResult,$productPriceResult, $productCurrencyResult, $productCountResult, $productAmountResult,
+$productPercentResult, $productDiscountResult, $productTotalResult)
     ->dataSource($dataSourceProp)
     ->persistSelection(true)
     ->sortable(true)
@@ -855,46 +905,6 @@ $window->title('Загрузка товара')
 
     <div class="loadPopUpMiddle">
       
- <?php
- /*
- require_once 'lib/DataSourceResult.php';
- require_once 'lib/Kendo/Autoload.php';
-
-
-$dataToProposal = json_decode('{"data":[{"sel":"df"},{"sel":"kaka"}]}');
-
-
-$model = new \Kendo\Data\DataSourceSchemaModel();
-
-
-$schema = new \Kendo\Data\DataSourceSchema();
-$schema->data('data')
-       ->model($model);
-
-$dataSourceProp = new \Kendo\Data\DataSource('newData');
-
-$dataSourceProp->data($dataToProposal)
-           ->pageSize(100)
-           ->schema($schema);
-
-$gridPopUp = new \Kendo\UI\Grid('gridPopUp');
-
-$selectColumn = new \Kendo\UI\GridColumn();
-$selectColumn->field('sel')
-             ->title('Показываем')
-             ->width(50);
-
-
-$gridPopUp->addColumn($selectColumn)
-     ->dataSource($dataSourceProp)
-     ->persistSelection(true)
-     ->pageable(true)
-     ->attr('style', 'height:270px');
-
-
-echo $gridPopUp->render(); */
-?>
-
 
 <div class="box wide">
 </div>
@@ -1016,14 +1026,19 @@ console.log(count)
   function onOpenSubcategory(e){
     
     var catId = $('#kat')[0].value; 
-    var chooser = $('#podkat').data("kendoComboBox").dataSource.filter()['filters'];
+    var chooser = $('#podkat').data("kendoComboBox").dataSource;
   
     console.log(catId);
 
-    if(catId != ''){
-    chooser = [{field: "category_id", operator: "eq", value: String(catId)}];
-    $('#podkat').data("kendoComboBox").dataSource.read();
-  }
+    //if(catId != ''){
+    chooser.filter(({
+    logic: "and",
+    filters: [
+      {field: "category_id", operator: "eq", value: catId}      
+    ]
+}));
+    chooser.read();
+  //}
 
 
   }
@@ -1146,16 +1161,17 @@ $(function() {
   }
 
   function setInPopUp(array){
-    console.log(array);
+    
       $('#popupId')[0].value = array[0].id;
-      $('#popupCat')[0].value = array[0].category;
-      $('#popupSubCat')[0].value = array[0].subcategory_id;
       $('#popupName')[0].value = array[0].Name;
       $('#popupBrand')[0].value = array[0].Brand;
       $('#popupModel')[0].value = array[0].Model;
       $('.mainimg')[0].src = array[0].ImagePath;
       $('#popupPrice')[0].value = array[0].Price;
       $('#popupDoleur')[0].value = array[0].Currency;
+      $('#popupNalichie')[0].value = array[0].Avability;
+      $('#popupDopInfo')[0].value = array[0].Additional;
+
 
 
 
@@ -1169,10 +1185,17 @@ $(function() {
       $('#popupCat')[0].value = resultString.Name;
 
       //Блок установки субкатегории по словарю
-      //доделать      
+      var categoryDataSource = $('#podkat').data("kendoComboBox").dataSource.data();
+      var resultString = categoryDataSource.find(function(element, index, arr ){
+        if(element.category_id === array[0].category){
+          return element;
+        }
+      });
+      $('#popupSubCat')[0].value = resultString.Name;
+   
       show('block');
 
-//колиество позиций (моделей)
+//колиество позиций (моделей)!!
 
 
   }
@@ -1184,6 +1207,11 @@ $('#refreshCurs').click(function() {
 mainSetCurs()
 
 })
+
+function justATest(arg){
+  alert(arg);
+}
+
 
 function mainSetCurs() {
 
@@ -1199,6 +1227,40 @@ function setCurs(data) {
 
 $('.dol').val(data.doll) 
 $('.eur').val(data.eur) 
+
+}
+
+function addInCart(){
+
+//Нужно написать функцию которая будет проверять все поля Всплывающего окна на корректное заполнение , функция должна возвращать true или false
+
+
+      var entityGrid  = $("#grid").data("kendoGrid");
+      var selectedItem = entityGrid.dataItem(entityGrid.select());
+
+      console.log(selectedItem);
+      //Инициализируем массив
+      
+      //Заполняем массив из события (ассоциативный)
+      $('#gridPopUp').data('kendoGrid').dataSource.add({
+      'id':selectedItem.id, 
+      'category':selectedItem.category_id, 
+      'subcategory_id':selectedItem.subcategory_id, //доработать поиск по словарю
+      'Name':selectedItem.Name,
+      'Brand':selectedItem.Brand,
+      'Price': selectedItem.Price,
+      'Currency': selectedItem.Currency,
+      'Model':selectedItem.Model,
+      'PhotoPath': selectedItem.ImagePath, 
+      'Avability': selectedItem.Avability,
+      'Additional': selectedItem.Additional
+      });
+      //arrastos.push();
+
+        
+
+
+       // $('#gridPopUp').data('kendoGrid').dataSource.read();
 
 }
    
