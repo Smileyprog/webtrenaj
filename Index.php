@@ -134,11 +134,11 @@
     <div class="popUpSubSubbotom">
       <div class="subLeft">
         <p>Наличие</p>
-        <p><textarea readonly rows="7" cols="30" name="popupNalichie"></textarea></p>
+        <p><textarea readonly rows="7" cols="30" name="popupNalichie" id="popupNalichie"></textarea></p>
       </div>
       <div class="subRight">
         <p>Дополнительная информация</p>
-        <p><textarea readonly rows="7" cols="30" name="popupDopInfo"></textarea></p>
+        <p><textarea readonly rows="7" cols="30" name="popupDopInfo" id="popupDopInfo"></textarea></p>
       <div class="clearfix"></div>
 
       </div>
@@ -209,7 +209,7 @@ function show(state){
                     ->dataValueField('category_id')
                     ->filter('contains')
                     ->placeholder('Выберите категорию')
-                    ->suggest(true)
+                    ->suggest(false)
                     ->change('onOpenSubcategory')
                     ->close('UpperSelectsChange')
                     ->attr('style', 'width: 100%;');
@@ -992,14 +992,19 @@ echo $gridPopUp->render(); */
   function onOpenSubcategory(e){
     
     var catId = $('#kat')[0].value; 
-    var chooser = $('#podkat').data("kendoComboBox").dataSource.filter()['filters'];
+    var chooser = $('#podkat').data("kendoComboBox").dataSource;
   
     console.log(catId);
 
-    if(catId != ''){
-    chooser = [{field: "category_id", operator: "eq", value: String(catId)}];
-    $('#podkat').data("kendoComboBox").dataSource.read();
-  }
+    //if(catId != ''){
+    chooser.filter(({
+    logic: "and",
+    filters: [
+      {field: "category_id", operator: "eq", value: catId}      
+    ]
+}));
+    chooser.read();
+  //}
 
 
   }
@@ -1124,14 +1129,17 @@ $(function() {
   function setInPopUp(array){
     console.log(array);
       $('#popupId')[0].value = array[0].id;
-      $('#popupCat')[0].value = array[0].category;
-      $('#popupSubCat')[0].value = array[0].subcategory_id;
+      //$('#popupCat')[0].value = array[0].category;
+      //$('#popupSubCat')[0].value = array[0].subcategory_id;
       $('#popupName')[0].value = array[0].Name;
       $('#popupBrand')[0].value = array[0].Brand;
       $('#popupModel')[0].value = array[0].Model;
       $('.mainimg')[0].src = array[0].ImagePath;
       $('#popupPrice')[0].value = array[0].Price;
       $('#popupDoleur')[0].value = array[0].Currency;
+      $('#popupNalichie')[0].value = array[0].Avability;
+      $('#popupDopInfo')[0].value = array[0].Additional;
+
 
 
 
@@ -1145,6 +1153,14 @@ $(function() {
       $('#popupCat')[0].value = resultString.Name;
 
       //Блок установки субкатегории по словарю
+      var categoryDataSource = $('#podkat').data("kendoComboBox").dataSource.data();
+      var resultString = categoryDataSource.find(function(element, index, arr ){
+        if(element.category_id === array[0].category){
+          return element;
+        }
+      });
+      $('#popupSubCat')[0].value = resultString.Name;
+
       //доделать      
       show('block');
 
