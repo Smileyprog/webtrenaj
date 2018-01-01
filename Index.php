@@ -1002,7 +1002,10 @@ $window->title('Загрузка товара')
 <script type="text/javascript">
 
 
-$('#popupCount').change(function() {
+$('#popupCount').change(popUpSumm)
+$('#popupCount').keyup(popUpSumm)
+  
+function popUpSumm() {
 
 var price =  $('#popupPrice').val()
 var count = $('#popupCount').val()
@@ -1020,11 +1023,11 @@ newSumm = String(newSumm).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ')
 newSumm = newSumm.replace(".",",");
 
 $('#popupSumm').val(newSumm)
-
-})
-
+}
 
 
+
+//
 
 
 
