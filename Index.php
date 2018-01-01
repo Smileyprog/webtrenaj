@@ -122,9 +122,9 @@
             <td>Скидка</td>
           </tr>
           <tr>
-            <td><input type="text" id="popupPrice" class="popupInput"></td>
+            <td><input type="text" id="popupPrice" class="popupInput" disabled></td>
             <td><input type="text" id="popupDoleur" class="popupInput" disabled></td>
-            <td><input type="text" id="popupCount" class="popupInput popupInputDop"></td>
+            <td><input type="number" id="popupCount" class="popupInput popupInputDop"></td>
             <td><input type="text" id="popupSumm" class="popupInput" disabled></td>
             <td><input type="text" id="popupPercent" class="popupInput popupInputDop"></td>
             <td class="popUpInputLast"><input type="text" id="popupDiscount" class="popupInput disabled"></td>
@@ -1002,7 +1002,7 @@ $window->title('Загрузка товара')
 <script type="text/javascript">
 
 
-$('#popupCount').keyup(function() {
+$('#popupCount').change(function() {
 
 var price =  $('#popupPrice').val()
 var count = $('#popupCount').val()
@@ -1010,23 +1010,21 @@ var count = $('#popupCount').val()
 price = price.replace(",",".");
 price = price.replace(' ','')
 
-
 count = Number(count)
 price = Number(price)
 
-
 var newSumm = price * count
-
 
 newSumm = newSumm.toFixed(2)
 newSumm = String(newSumm).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ')
 newSumm = newSumm.replace(".",",");
 
-
 $('#popupSumm').val(newSumm)
 
-
 })
+
+
+
 
 
 
