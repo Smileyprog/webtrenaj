@@ -709,52 +709,52 @@ $productNameResult = new \Kendo\UI\GridColumn();
 $productNameResult->field('Name')
             ->title('Название')
             ->template("<div onclick=\"justATest('#:data.PhotoPath#')\" class='model-photo'style='background-image: url(#:data.PhotoPath#);'></div><div class='model-name'>#: Name #</div>")            
-            ->width(200);
+            ->width(400);
 
 $productBrandResult = new \Kendo\UI\GridColumn();
 $productBrandResult->field('Brand')
             ->title('Бренд')
-            ->width(300);
+            ->width(150);
 
 $productModelResult = new \Kendo\UI\GridColumn();
 $productModelResult->field('Model')
             ->title('Модель')
-            ->width(300);
+            ->width(150);
 
 $productPriceResult = new \Kendo\UI\GridColumn();
 $productPriceResult->field('Price')
             ->title('Цена')
-            ->width(60);
+            ->width(120);
 
 $productCurrencyResult = new \Kendo\UI\GridColumn();
 $productCurrencyResult->field('Currency')
             ->title('Валюта')
-            ->width(40);
+            ->width(60);
 
 $productCountResult = new \Kendo\UI\GridColumn();
 $productCountResult->field('Count')
                     ->title('Количество')
-                    ->width(700);
+                    ->width(60);
 
 $productAmountResult = new \Kendo\UI\GridColumn();
 $productAmountResult->field('Summ')
                     ->title('Сумма')
-                    ->width(700);
+                    ->width(100);
 
 $productPercentResult = new \Kendo\UI\GridColumn();
 $productPercentResult->field('Percent')
                     ->title('%')
-                    ->width(700);
+                    ->width(60);
 
 $productDiscountResult = new \Kendo\UI\GridColumn();
 $productDiscountResult->field('Discount')
                     ->title('Скидка')
-                    ->width(700);
+                    ->width(100);
 
 $productTotalResult = new \Kendo\UI\GridColumn();
 $productTotalResult->field('Total')
                     ->title('Всего')
-                    ->width(700);
+                    ->width(100);
 
 
 
@@ -775,12 +775,23 @@ $selectColumn->field('sel')
             ->title('Показываем')
             ->width(50);
 
+$commandItemEdit = new \Kendo\UI\GridColumnCommandItem();
+$commandItemEdit ->name('destroy')
+                 ->text('Удалить');
+
+
+$command = new \Kendo\UI\GridColumn();
+$command->addCommandItem($commandItemEdit)
+        ->title('&nbsp;')
+        ->width(250);
 
 $gridPopUp->addColumn($productNameResult, $productBrandResult,$productModelResult,$productPriceResult, $productCurrencyResult, $productCountResult, $productAmountResult,
-$productPercentResult, $productDiscountResult, $productTotalResult)
+$productPercentResult, $productDiscountResult, $productTotalResult, $command)
     ->dataSource($dataSourceProp)
     ->persistSelection(true)
     ->sortable(true)
+    ->editable(true)
+    ->resizable(true)
     ->attr('style', 'height:270px');
 
 
