@@ -1,3 +1,36 @@
+<?php
+#region  Авторизация
+
+// Скрипт проверки
+
+// Соединямся с БД
+  $link=mysqli_connect("localhost", "root", "", "webWithGoogle");
+
+  if (isset($_COOKIE['id']) and isset($_COOKIE['hash'])) {
+    $query = mysqli_query($link, "SELECT *,INET_NTOA(user_ip) AS user_ip FROM users WHERE user_id = '".intval($_COOKIE['id'])."' LIMIT 1");
+    $userdata = mysqli_fetch_assoc($query);
+
+    if(($userdata['user_hash'] !== $_COOKIE['hash']) or ($userdata['user_id'] !== $_COOKIE['id'])) {
+      setcookie("id", "", time() - 3600*24*30*12, "/");
+      setcookie("hash", "", time() - 3600*24*30*12, "/");
+      header("Location: auth.php");
+      return;
+    } 
+    else
+    {
+      echo "<div class='hello'>Здравствуйте, ".$userdata['user_login'].".</div>";
+    }
+  }
+  else
+  {
+    header("Location: auth.php");
+    return;
+  }
+
+#endregion
+ #region
+?>
+
 <!DOCTYPE HTML PUBLIC>
 <html>
 <head>
@@ -28,39 +61,7 @@
 
 <body>
 
-  <?php
-
-#region  Авторизация
-
-// Скрипт проверки
-
-// Соединямся с БД
-  $link=mysqli_connect("localhost", "root", "", "webWithGoogle");
-
-  if (isset($_COOKIE['id']) and isset($_COOKIE['hash'])) {
-    $query = mysqli_query($link, "SELECT *,INET_NTOA(user_ip) AS user_ip FROM users WHERE user_id = '".intval($_COOKIE['id'])."' LIMIT 1");
-    $userdata = mysqli_fetch_assoc($query);
-
-    if(($userdata['user_hash'] !== $_COOKIE['hash']) or ($userdata['user_id'] !== $_COOKIE['id'])) {
-      setcookie("id", "", time() - 3600*24*30*12, "/");
-      setcookie("hash", "", time() - 3600*24*30*12, "/");
-      echo "У вас нет доступа к этой странице";
-      return;
-    } 
-    else
-    {
-      echo "<div class='hello'>Здравствуйте, ".$userdata['user_login'].".</div>";
-    }
-  }
-  else
-  {
-    echo "Включите куки";
-    return;
-  }
-
-#endregion
- #region
- ?>
+ 
 
 
 
