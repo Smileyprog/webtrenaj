@@ -1270,6 +1270,8 @@ $(function() {
         }
       );
       $('#popupBrand')[0].value = braResultString.name;
+
+      $('#popupCount').val('')
    
       show('block');
 
