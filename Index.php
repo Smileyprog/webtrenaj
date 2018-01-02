@@ -834,7 +834,7 @@ echo $gridPopUp->render();
     </div>
     <div class="footerSecond">
       <span class="footerText">Кол-во Шт</span>
-      <input type="text" id="footerCount" class="footerEv">
+      <input type="number" id="footerCount" class="footerEv">
       <span class="footerText">Сумма RUR</span>
       <input type="text" id="footerSumm" class="footerEv">
       <span class="footerText"> Скидка RUR</span>
