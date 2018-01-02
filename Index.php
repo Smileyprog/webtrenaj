@@ -1302,8 +1302,14 @@ success: setCurs
 
 function setCurs(data) {
 
-$('.dol').val(data.doll) 
-$('.eur').val(data.eur) 
+var doll = Number(data.doll)
+var eur = Number(data.eur)
+
+eur = eur.toFixed(2)
+doll = doll.toFixed(2)
+
+$('.dol').val(doll) 
+$('.eur').val(eur) 
 
 }
 
