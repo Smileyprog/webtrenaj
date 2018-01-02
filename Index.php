@@ -162,6 +162,10 @@
 <script type="text/javascript">
 
 
+
+
+
+
 function show(state){
 
   document.getElementById('popupWindow').style.display = state;     
@@ -1100,9 +1104,6 @@ if (summ != '' && summ != undefined) {
 
 
 
-
-
-
     // ПОКАЗ ВСПЛЫВАЮЩЕГО ОКНА ЗАГРУЗКИ ТОВАРОВ
 
     function DataTransportModel(arg){
@@ -1316,6 +1317,16 @@ $('.eur').val(eur)
 function addInCart(){
 
 
+if ($('#popupCount').val() != '' && $('#popupCount').val() != undefined) {
+
+$('#popupWindow').hide()
+$('#popupWrap').hide()
+
+
+
+
+
+
 
       var entityGrid  = $("#grid").data("kendoGrid");
       var selectedItem = entityGrid.dataItem(entityGrid.select());
@@ -1341,6 +1352,14 @@ function addInCart(){
       'Avability': selectedItem.Avability,
       'Additional': selectedItem.Additional
       });
+
+    }
+
+else {
+
+alert('Пожалуйста, укажите количество!')
+
+}
 
 }
    
