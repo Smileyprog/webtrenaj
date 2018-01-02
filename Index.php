@@ -1324,10 +1324,6 @@ $('#popupWrap').hide()
 
 
 
-
-
-
-
       var entityGrid  = $("#grid").data("kendoGrid");
       var selectedItem = entityGrid.dataItem(entityGrid.select());
 
