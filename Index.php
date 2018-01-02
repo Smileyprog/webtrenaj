@@ -33,7 +33,7 @@
 #region  Авторизация
 
 // Скрипт проверки
-/*
+
 // Соединямся с БД
   $link=mysqli_connect("localhost", "root", "", "webWithGoogle");
 
@@ -45,9 +45,8 @@
       setcookie("id", "", time() - 3600*24*30*12, "/");
       setcookie("hash", "", time() - 3600*24*30*12, "/");
       echo "У вас нет доступа к этой странице";
-      return;   писяписяновыйгод 2.0
-      хопмусорок
-    } chaaanges chaaaaaangeeeessssss
+      return;
+    } 
     else
     {
       echo "<div class='hello'>Здравствуйте, ".$userdata['user_login'].".</div>";
@@ -58,7 +57,7 @@
     echo "Включите куки";
     return;
   }
-*/
+
 #endregion
  #region
  ?>
