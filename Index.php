@@ -127,7 +127,7 @@
             <td><input type="number" id="popupCount" class="popupInput popupInputDop"></td>
             <td><input type="text" id="popupSumm" class="popupInput" disabled></td>
             <td><input type="text" id="popupPercent" class="popupInput popupInputDop"></td>
-            <td class="popUpInputLast"><input type="text" id="popupDiscount" class="popupInput disabled"></td>
+            <td class="popUpInputLast"><input type="text" id="popupDiscount" class="popupInput" disabled></td>
           </tr>
         </table>
       </div>
@@ -1017,7 +1017,7 @@ $window->title('Загрузка товара')
 
 <script type="text/javascript">
 
-
+// РАССЧЕТ СУММЫ ВО ВСПЛЫВАЮЩЕМ ОКНЕ
 $('#popupCount').change(popUpSumm)
 $('#popupCount').keyup(popUpSumm)
   
@@ -1043,7 +1043,60 @@ $('#popupSumm').val(newSumm)
 
 
 
-//
+
+// РАССЧЕТ СКИДКИ
+$('#popupPercent').keyup(function() {
+
+var summ = $('#popupSumm').val()
+
+
+if (summ != '' && summ != undefined) {
+
+  var percentVal = $('#popupPercent').val()
+  var itogSumm = ''
+  var match = percentVal.search('%')
+  var zapMatch = percentVal.search(',')
+
+  summ = summ .replace(",",".");
+  summ = summ .replace(' ','')
+  summ = Number(summ)
+
+  if (zapMatch >= 0) {
+    percentVal = percentVal.replace(',','.')
+    }
+
+
+// Если процента нет
+  if (match < 0) {
+ 
+    percentVal = Number(percentVal)
+
+    itogSumm = summ - percentVal
+
+  }
+
+// Если процент есть
+  else if (match >= 0) {
+
+    percentVal = percentVal.replace('%','')
+    percentVal = Number(percentVal)
+    
+    itogSumm = summ - summ/100*percentVal
+
+  }
+
+
+// Выводим итоговую скидку
+  itogSumm = itogSumm.toFixed(2)
+  itogSumm = String(itogSumm).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ')
+  itogSumm = itogSumm.replace(".",",");
+  $('#popupDiscount').val(itogSumm)
+
+}
+
+})
+
+
 
 
 
