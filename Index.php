@@ -38,9 +38,9 @@
   <meta http-equiv="Content-Type" content="text/html" charset="utf-8" />
 
   <!-- Скрипты -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
-  <script src="js/jquery.min.js"></script>
-  <script src="js/kendo.web.min.js"></script>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <script type="text/javascript" src="js/kendo.web.min.js"></script>
 
 
   <!-- Стимли -->
@@ -850,6 +850,7 @@ echo $gridPopUp->render();
       <?php
       echo (new \Kendo\UI\Button('textButton3'))
       ->content('Сфомировать')
+      ->click('ajaxToGoogle')
       ->render();
       ?>
     </div>
@@ -1334,6 +1335,10 @@ $('#popupWrap').hide()
       
     var brandNameForArray = $('#brand').data("kendoComboBox").dataSource.data().find(function(element){return element.id === selectedItem.brand_id});
 
+      var count = $('#popupCount').val();
+      var summ = $('#popupSumm').val();
+      var percent = $('#popupPercent').val();
+      var discount = $('#popupDiscount').val();
 
 
       //Заполняем массив из события (ассоциативный)
@@ -1348,7 +1353,13 @@ $('#popupWrap').hide()
       'Model':selectedItem.Model,
       'PhotoPath': selectedItem.ImagePath, 
       'Avability': selectedItem.Avability,
-      'Additional': selectedItem.Additional
+      'Additional': selectedItem.Additional,
+      'Count': count,
+      'Summ': summ,
+      'Percent': percent,
+      'Discount': discount
+
+
       });
 
     }
@@ -1360,7 +1371,33 @@ alert('Пожалуйста, укажите количество!')
 }
 
 }
+
+function ajaxToGoogle(){
+
+var dataToSend = $('#gridPopUp').data('kendoGrid').dataSource.data();
+var url = "https://script.google.com/macros/s/AKfycbyqkkIeVqADK9etQpXQJXH6J2vG-2jdy2sz6Gxd_ss0ybhcouR6/exec";
+
+console.log(JSON.stringify(dataToSend));
+
+  $.ajax({
+    url: "googleTransport.php"  ,
+    type: "POST",       // указываем URL и
+    dataType : "html",
+    data: ({ data: JSON.stringify(dataToSend) }) ,
+    success: function(asd){
+      console.log(asd);
+    }
+
+});
+
+}
+
+function googleCallback(arg){
+  
+  console.log(arg.result)
+}
    
+ 
 /*
     $('#loadpopup').click(function() {
 
