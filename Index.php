@@ -265,13 +265,29 @@ function show(state){
 
               require_once 'lib/Kendo/Autoload.php';
 
-              $select1 = new \Kendo\UI\ComboBox('brand');
-              $select1->dataSource(array('AeroFit', 'impulse'))
-              ->placeholder('Выберите бренд')
-              ->index(0)
-              ->close('UpperSelectsChange')
+              $resultJsonSubBrand = $result->read('brand', array('id', 'name'));
+
+          
+              $schemaBrand = new \Kendo\Data\DataSourceSchema();
+              $schemaBrand->data('data')
+                     ->total('total');
               
-              ->attr('style', 'width: 100%;');
+              $categoryBrand = new \Kendo\Data\DataSource('braDataSource');
+              $categoryBrand->data($resultJsonSubBrand)
+                       ->schema($schemaBrand) 
+                       ->serverFiltering(true);
+
+            
+              $select1 = new \Kendo\UI\ComboBox('brand');
+              $select1->dataSource($categoryBrand)
+                    ->dataTextField('name')
+                    ->dataValueField('id')
+                    ->filter('contains')
+                    ->placeholder('Выберите бренд')
+                    ->suggest(false)
+                    ->change('onOpenSubcategory')
+                    ->attr('style', 'width: 100%;');
+
 
               echo $select1->render();
               ?></td>
@@ -1074,6 +1090,7 @@ var dataGrid = $("#grid").data("kendoGrid");
 var catVal = $('input[name="kat_input"]').val();
 var catId = $('#kat')[0].value; 
 var podCatId = $('#podkat')[0].value;
+var brandId = $('#brand')[0].value;
 
 console.log(podCatId);
 
@@ -1085,6 +1102,9 @@ if(catId != '')
 dataGrid.dataSource.filter()['filters'].push({field: "category_id", operator: "eq", value: catId});
 
 if(podCatId != '')
+dataGrid.dataSource.filter()['filters'].push({field: "subcategory_id", operator: "eq", value: podCatId});
+
+if(brandId != '')
 dataGrid.dataSource.filter()['filters'].push({field: "subcategory_id", operator: "eq", value: podCatId});
 
 
@@ -1272,12 +1292,6 @@ function addInCart(){
       'Avability': selectedItem.Avability,
       'Additional': selectedItem.Additional
       });
-      //arrastos.push();
-
-        
-
-
-       // $('#gridPopUp').data('kendoGrid').dataSource.read();
 
 }
    
