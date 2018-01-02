@@ -519,10 +519,11 @@ function show(state){
            require_once 'lib/Kendo/Autoload.php';
            $result = new DataSourceResult('mysql:host=localhost;dbname=webWithGoogle', 'root', '');
            
-           $resultJson = $result->read('base', array('id', 'Name', 'Brand', 'Model', 'Price', 'Currency', 'category_id', 'subcategory_id', 'ImagePath', 'Avability', 'Additional' )) ;
+           $resultJson = $result->read('base', array('id', 'Name', 'brand_id', 'Model', 'Price', 'Currency', 'category_id', 'subcategory_id', 'ImagePath', 'Avability', 'Additional' )) ;
 
            $categoryArray = $result->read('category', ['category_id as value','Name as text']);
            $subCategoryArray = $result->read('category', ['subcategory_id as value','Name as text']);
+           $brandArray = $result->read('brand', ['id as value','name as text']);
            
            $dataSource = new \Kendo\Data\DataSource();
            
@@ -538,9 +539,10 @@ function show(state){
                        ->width(700);
            
            $unitPrice = new \Kendo\UI\GridColumn();
-           $unitPrice->field('Brand')
+           $unitPrice->field('brand_id')
                      ->width(120)
-                     ->title('Бренд');
+                     ->title('Бренд')
+                     ->values($brandArray['data']);
            
            $unitsInStock = new \Kendo\UI\GridColumn();
            $unitsInStock->field('Model')
@@ -1158,34 +1160,11 @@ if(podCatId != '')
 dataGrid.dataSource.filter()['filters'].push({field: "subcategory_id", operator: "eq", value: podCatId});
 
 if(brandId != '')
-dataGrid.dataSource.filter()['filters'].push({field: "subcategory_id", operator: "eq", value: podCatId});
+dataGrid.dataSource.filter()['filters'].push({field: "subcategory_id", operator: "eq", value: brandId});
 
 
 //Рендер таблицы с новыми данными
 dataGrid.dataSource.read();
-//if ( ) {
-//if ($('input[name="kat_input"]').val() == undefined ) {
-
-//alert('Пустота')
-
-// }
-
-// else {
-
-//  alert('ВЫБРАНО')
-// }
-
-
-//arg.dataItem.category_id
-//arg.dataItem.Name
-
-
-
-
-
-
-
-
 
 }
 
@@ -1236,7 +1215,7 @@ $(function() {
       'category':selectedItem.category_id, 
       'subcategory_id':selectedItem.subcategory_id, //доработать поиск по словарю
       'Name':selectedItem.Name,
-      'Brand':selectedItem.Brand,
+      'Brand':selectedItem.brand_id,
       'Price': selectedItem.Price,
       'Currency': selectedItem.Currency,
       'Model':selectedItem.Model,
@@ -1275,13 +1254,21 @@ $(function() {
       $('#popupCat')[0].value = resultString.Name;
 
       //Блок установки субкатегории по словарю
-      var categoryDataSource = $('#podkat').data("kendoComboBox").dataSource.data();
-      var resultString = categoryDataSource.find(function(element, index, arr ){
-        if(element.category_id === array[0].category){
+      var subCategoryDataSource = $('#podkat').data("kendoComboBox").dataSource.data();
+      var subresultString = subCategoryDataSource.find(function(element, index, arr ){
+        if(element.subcategory_id === array[0].subcategory_id){
           return element;
         }
       });
-      $('#popupSubCat')[0].value = resultString.Name;
+      $('#popupSubCat')[0].value = subresultString.Name;
+
+       //Блок установки бренда по словарю
+       var brandDataSource = $('#brand').data("kendoComboBox").dataSource.data();
+      var braResultString = brandDataSource.find(function(element){        
+          return element.id === array[0].Brand;
+        }
+      );
+      $('#popupBrand')[0].value = braResultString.name;
    
       show('block');
 
@@ -1322,7 +1309,6 @@ $('.eur').val(data.eur)
 
 function addInCart(){
 
-//Нужно написать функцию которая будет проверять все поля Всплывающего окна на корректное заполнение , функция должна возвращать true или false
 
 
       var entityGrid  = $("#grid").data("kendoGrid");
@@ -1331,13 +1317,17 @@ function addInCart(){
       console.log(selectedItem);
       //Инициализируем массив
       
+    var brandNameForArray = $('#brand').data("kendoComboBox").dataSource.data().find(function(element){return element.id === selectedItem.brand_id});
+
+
+
       //Заполняем массив из события (ассоциативный)
       $('#gridPopUp').data('kendoGrid').dataSource.add({
       'id':selectedItem.id, 
       'category':selectedItem.category_id, 
       'subcategory_id':selectedItem.subcategory_id, //доработать поиск по словарю
       'Name':selectedItem.Name,
-      'Brand':selectedItem.Brand,
+      'Brand': brandNameForArray.name,
       'Price': selectedItem.Price,
       'Currency': selectedItem.Currency,
       'Model':selectedItem.Model,
