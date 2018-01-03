@@ -1362,6 +1362,33 @@ $('#popupWrap').hide()
 
       });
 
+// Добавляем данные в футер
+
+var itogSumm = $('#itogo').val()
+
+if (itogSumm == 0 && itogSumm == undefined) {
+
+  itogSumm = 0
+
+}
+
+else {
+
+itogSumm = itogSumm.replace(",",".");
+itogSumm = itogSumm.replace(' ','')
+  
+}
+
+
+summ = summ.replace(",",".");
+summ = summ.replace(' ','')
+
+itogSumm = Number(count)
+summ = Number(price)
+
+
+
+
     }
 
 else {
