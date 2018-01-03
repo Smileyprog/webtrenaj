@@ -610,8 +610,8 @@ function show(state){
            $dataSource->data($resultJson)
                       ->batch(true)
                       ->pageSize(200)
-                      ->schema($schema)
-                      ->addFilterItem($datasourceFilterCategory);
+                      ->schema($schema);
+                      //->addFilterItem($datasourceFilterCategory);
            
            $grid->addColumn($productName, $unitPrice, $unitsInStock, $discontinued, $currency, $categoryId, $subCategoryId, $ImagePath, $avability, $additional )
                 ->dataSource($dataSource)
@@ -619,6 +619,7 @@ function show(state){
                 ->sortable(true)
                 ->navigatable(true)
                 ->change('onChange')
+                ->filterable(true)
                 ->scrollable($scrollable)
                 ->selectable('row')
                 ->attr('style', 'height:400px');
@@ -857,6 +858,7 @@ echo $gridPopUp->render();
       <input type="text" id="footerSumm" class="footerEv">
       <span class="footerText"> Скидка RUR</span>
       <input type="text" id="footerDiscount" class="footerEv">
+      <br>
       <span class="footerText"> Итого</span>
       <input type="text" id="itogo" class="footerEv">
     </div>
@@ -1524,6 +1526,8 @@ return itogSumm;
 }
 }
    
+// Блок проставления скидок на выделенные (добавить кнопку)
+//Приведение в единую валюту 
 
    function StringBeutifier(itogSumm){
 
