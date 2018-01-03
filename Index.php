@@ -625,8 +625,8 @@ function show(state){
            $dataSource->data($resultJson)
                       ->batch(true)
                       ->pageSize(200)
-                      ->schema($schema)
-                      ->addFilterItem($datasourceFilterCategory);
+                      ->schema($schema);
+                      //->addFilterItem($datasourceFilterCategory);
            
            $grid->addColumn($productName, $unitPrice, $unitsInStock, $discontinued, $currency, $categoryId, $subCategoryId, $ImagePath, $avability, $additional )
                 ->dataSource($dataSource)
@@ -634,6 +634,7 @@ function show(state){
                 ->sortable(true)
                 ->navigatable(true)
                 ->change('onChange')
+                ->filterable(true)
                 ->scrollable($scrollable)
                 ->selectable('row')
                 ->attr('style', 'height:400px');
@@ -739,8 +740,22 @@ require_once 'lib/DataSourceResult.php';
 
 $dataToProposal = json_decode('{"data":[]}');
 
+$productNameField = new \Kendo\Data\DataSourceSchemaModelField('Name');
+$productNameField->type('string')
+                 ->editable(false);
+
+$productBrandField = new \Kendo\Data\DataSourceSchemaModelField('Brand');
+ $productBrandField->type('string')
+                  ->editable(false);
+
+$productModelField = new \Kendo\Data\DataSourceSchemaModelField('Model');
+$productModelField->type('string')
+                  ->editable(false);                
 
 $model = new \Kendo\Data\DataSourceSchemaModel();
+$model -> addField($productNameField)
+       ->addField($productBrandField)
+       ->addField($productModelField);
 
 $productNameResult = new \Kendo\UI\GridColumn();
 $productNameResult->field('Name')
@@ -803,14 +818,12 @@ $dataSourceProp = new \Kendo\Data\DataSource('newData');
 
 $dataSourceProp->data($dataToProposal)
           ->pageSize(100)
+          ->change('recalculateProposal')
           ->schema($schema);
 
 $gridPopUp = new \Kendo\UI\Grid('gridPopUp');
 
-$selectColumn = new \Kendo\UI\GridColumn();
-$selectColumn->field('sel')
-            ->title('Показываем')
-            ->width(50);
+
 
 $commandItemEdit = new \Kendo\UI\GridColumnCommandItem();
 $commandItemEdit ->name('destroy')
@@ -854,10 +867,13 @@ echo $gridPopUp->render();
     <div class="footerSecond">
       <span class="footerText">Кол-во Шт</span>
       <input type="number" id="footerCount" class="footerEv">
+      <span class="footerText">Кол-во Поз</span>
+      <input type="number" id="footerPosCount" class="footerEv">
       <span class="footerText">Сумма RUR</span>
       <input type="text" id="footerSumm" class="footerEv">
       <span class="footerText"> Скидка RUR</span>
       <input type="text" id="footerDiscount" class="footerEv">
+      <br>
       <span class="footerText"> Итого</span>
       <input type="text" id="itogo" class="footerEv">
     </div>
@@ -1076,8 +1092,7 @@ function popUpSumm() {
 var price =  $('#popupPrice').val()
 var count = $('#popupCount').val()
 
-price = price.replace(",",".");
-price = price.replace(' ','')
+price = price.replace(",",".").replace(' ','');
 
 count = Number(count)
 price = Number(price)
@@ -1462,11 +1477,107 @@ console.log(JSON.stringify(dataToSend));
 
 }
 
-function googleCallback(arg){
+function recalculateProposal(arg){
+
+var data = $('#gridPopUp').data('kendoGrid').dataSource.data();
+
+if(data.length > 0){
+
+  var countOfAll = 0;
+
+data.forEach(function(entry){
+
+countOfAll += Number(entry.Count);
+
+entry.Summ = calculateSum(entry.Price, entry.Count);
+
+entry.Discount = calculatePercent(entry.Percent, entry.Summ);
+
+entry.Total = ParseNumNew(entry.Summ) - ParseNumNew(entry.Discount);
+
+})
+
+$('#footerCount')[0].value = countOfAll;
+$('#footerPosCount')[0].value = data.length;
+
+$('#gridPopUp').data('kendoGrid').refresh()
+
+}
   
-  console.log(arg.result)
+}
+
+function calculateSum(price, amount){
+
+return ParseNumNew(price) * ParseNumNew(amount);
+
+}
+
+function ParseNumNew(arg){
+
+  if(typeof arg =="string"){
+  arg = arg .replace(",",".");
+  arg = arg .replace(' ','')
+  return  Number(arg);
+}
+else{
+  return arg;
+}
+
+}
+
+
+function calculatePercent(percentVal, summ){
+  summ = String(summ);
+
+if (summ != '' && summ != undefined) {
+
+  var itogSumm = ''
+  var match = percentVal.search('%')
+  var zapMatch = percentVal.search(',')
+
+  summ = summ .replace(",",".");
+  summ = summ .replace(' ','')
+  summ = Number(summ)
+
+  if (zapMatch >= 0) {
+    percentVal = percentVal.replace(',','.')
+    }
+
+
+// Если процента нет
+  if (match < 0) {
+ 
+    percentVal = Number(percentVal)
+
+    itogSumm = percentVal;
+
+  }
+
+// Если процент есть
+  else if (match >= 0) {
+
+    percentVal = percentVal.replace('%','')
+    percentVal = Number(percentVal)
+    
+    itogSumm =  percentVal/100 * summ
+
+  }
+return itogSumm;
+
+// Выводим итоговую скидку
+
+}
 }
    
+// Блок проставления скидок на выделенные (добавить кнопку)
+//Приведение в единую валюту 
+
+   function StringBeutifier(itogSumm){
+
+    itogSumm = itogSumm.toFixed(2)
+  itogSumm = String(itogSumm).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ')
+  itogSumm = itogSumm.replace(".",",");
+   }
  
 /*
     $('#loadpopup').click(function() {
