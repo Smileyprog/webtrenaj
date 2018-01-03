@@ -299,13 +299,27 @@ function show(state){
             <tr>
               <td>Название</td>
               <td><?php
-              $countries = array('Один', 'Два', 'Три', 'Четыре', 'Пять', 'Шесть', 'Семь',
-                'Восемь', 'Девять', 'Десять');
+
+              $resultos = new DataSourceResult('mysql:host=localhost;dbname=webWithGoogle', 'root', '');
+
+              $finalArr = [];
+              $models = $resultos->read('base', array('Model'));
+
+              for ($i = 0; $i < count($models['data']); $i++) {
+
+                array_push($finalArr, $models['data'][$i]['Model']);
+
+              }
+              
+              $unic = array_unique($finalArr);
+
+             // $countries = array('Один', 'Два', 'Три', 'Четыре', 'Пять', 'Шесть', 'Семь',
+               // 'Восемь', 'Девять', 'Десять');
 
               $dataSource = new \Kendo\Data\DataSource();
-              $dataSource->data($countries);
+              $dataSource->data($unic);
 
-              $autoComplete = new \Kendo\UI\AutoComplete('countries');
+              $autoComplete = new \Kendo\UI\AutoComplete('models');
 
               $autoComplete->dataSource($dataSource)
               ->filter('startswith')
@@ -487,7 +501,8 @@ function show(state){
         <div class="demo-section k-content">
           <div>
               <p><span class="tempos" id="loadpopup">Загрузка товара</span>
-                <span class="tempos" id="popup" onclick="show('block')">ПопАп</span></p>
+                <span class="tempos" id="popup" onclick="sort()" >ПопАп</span></p>
+                <!--onclick="show('block')"-->
                 <?php
                 echo (new \Kendo\UI\Button('textButton'))
                 ->content('Выделить все')
@@ -1023,6 +1038,34 @@ $window->title('Загрузка товара')
 
 
 <script type="text/javascript">
+
+/*
+function sort() {
+
+  //console.log($("#grid").data('kendoGrid'));
+
+var data = $("#grid").data('kendoGrid')
+
+var all = data.dataSource._pristineData
+var finalArray = []
+
+for (var i = 0; i < all.length; i++) {
+
+  if (all[i].name)
+
+
+}
+
+console.log(all)
+
+
+//console.log($("#grid").data('kendoGrid').kendoGrid.dataSource.pristineData);
+
+  
+}
+*/
+
+
 
 // РАССЧЕТ СУММЫ ВО ВСПЛЫВАЮЩЕМ ОКНЕ
 $('#popupCount').change(popUpSumm)
