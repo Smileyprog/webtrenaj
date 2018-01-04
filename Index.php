@@ -1063,18 +1063,12 @@ $('#models').keyup(function() {
 var data = $("#grid").data('kendoGrid').dataSource.data();
 var val = $('#models').val().toLowerCase();
 
-
+ 
 var result = data.filter(function(element){
-  return  String(element.Model).toLowerCase().indexOf(val) > -1;
+  return String(element.Model).toLowerCase().indexOf(val) > -1;
 })
 
 console.log(result)
-
-
-//console.log(all)
-
-
-//console.log($("#grid").data('kendoGrid').kendoGrid.dataSource.pristineData);
 
   
 })
