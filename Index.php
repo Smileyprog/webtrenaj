@@ -1056,36 +1056,19 @@ $window->title('Загрузка товара')
 <script type="text/javascript">
 
 
-$('#models').keyup(function sort() {
+$('#models').keyup(function() {
 
   //console.log($("#grid").data('kendoGrid'));
 
-var data = $("#grid").data('kendoGrid')
-var val = $('#models').val()
-var all = data.dataSource._pristineData
-var finalArray = []
-var current = ''
-var count = 0
-console.log(all)
-
-for (var i = 0; i < all.length; i++) {
-
-current = all[i].Model.search(val)
-//console.log(all[i].Model)
-
-  if (current >= 0) {
-
-    finalArray.push(all[i].Model)
-
-  }
-
-  count +=1
-    //console.log(count)
-
-}
+var data = $("#grid").data('kendoGrid').dataSource.data();
+var val = $('#models').val().toLowerCase();
 
 
-//console.log(finalArray)
+var result = data.filter(function(element){
+  return  String(element.Model).toLowerCase().indexOf(val) > -1;
+})
+
+console.log(result)
 
 
 //console.log(all)
