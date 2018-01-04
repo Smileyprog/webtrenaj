@@ -499,7 +499,7 @@ function show(state){
         ?>
 
         <div class="demo-section k-content">
-          <div>
+          <div class="vidButs">
               <p><span class="tempos" id="loadpopup">Загрузка товара</span>
                 <span class="tempos" id="popup" onclick="sort()" >ПопАп</span></p>
                 <!--onclick="show('block')"-->
@@ -519,6 +519,7 @@ function show(state){
 
 
           </div>
+          <div class="middleFlex">
           <div class="middleLeft">
 
 
@@ -724,6 +725,7 @@ function show(state){
           </tr>
         </table>
       </div>
+        </div>
     </div>           
 
 
@@ -873,7 +875,6 @@ echo $gridPopUp->render();
       <input type="text" id="footerSumm" class="footerEv">
       <span class="footerText"> Скидка RUR</span>
       <input type="text" id="footerDiscount" class="footerEv">
-      <br>
       <span class="footerText"> Итого</span>
       <input type="text" id="itogo" class="footerEv">
     </div>
