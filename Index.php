@@ -297,21 +297,21 @@ function show(state){
               ?></td>
             </tr>
             <tr>
-              <td>Название</td>
+              <td>Модель</td>
               <td><?php
 
-              $resultos = new DataSourceResult('mysql:host=localhost;dbname=webWithGoogle', 'root', '');
+              //$resultos = new DataSourceResult('mysql:host=localhost;dbname=webWithGoogle', 'root', '');
 
-              $finalArr = [];
-              $models = $resultos->read('base', array('Model'));
+              //$finalArr = [];
+             // $models = $resultos->read('base', array('Model'));
 
-              for ($i = 0; $i < count($models['data']); $i++) {
+              //for ($i = 0; $i < count($models['data']); $i++) {
 
-                array_push($finalArr, $models['data'][$i]['Model']);
+              //  array_push($finalArr, $models['data'][$i]['Model']);
 
-              }
+             // }
               
-              $unic = array_unique($finalArr);
+            //  $unic = array_unique($finalArr);
 
              // $countries = array('Один', 'Два', 'Три', 'Четыре', 'Пять', 'Шесть', 'Семь',
                // 'Восемь', 'Девять', 'Десять');
@@ -1055,31 +1055,47 @@ $window->title('Загрузка товара')
 
 <script type="text/javascript">
 
-/*
-function sort() {
+
+$('#models').keyup(function sort() {
 
   //console.log($("#grid").data('kendoGrid'));
 
 var data = $("#grid").data('kendoGrid')
-
+var val = $('#models').val()
 var all = data.dataSource._pristineData
 var finalArray = []
+var current = ''
+var count = 0
+console.log(all)
 
 for (var i = 0; i < all.length; i++) {
 
-  if (all[i].name)
+current = all[i].Model.search(val)
+//console.log(all[i].Model)
 
+  if (current >= 0) {
+
+    finalArray.push(all[i].Model)
+
+  }
+
+  count +=1
+    //console.log(count)
 
 }
 
-console.log(all)
+
+//console.log(finalArray)
+
+
+//console.log(all)
 
 
 //console.log($("#grid").data('kendoGrid').kendoGrid.dataSource.pristineData);
 
   
-}
-*/
+})
+
 
 
 
