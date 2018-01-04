@@ -525,6 +525,7 @@ margin-left: 3%;
 margin-right: 3%;
 display: flex;
 flex-direction: row;
+justify-content: space-between;
 
 }
 
@@ -538,7 +539,6 @@ display:inline-block;
 
 .footerFirst {
 
-  float: left;
   font-weight: bold;
   margin-left: 3%;
   padding-top: 35px;
@@ -551,20 +551,16 @@ display:inline-block;
   display: flex;
   flex-direction: row;
   justify-content: center;
-padding-top: 33px;
+padding-top: 37px;
 
 
 }
 
 
 .footerThird {
-display: block;
-text-align: center;
-float: left;
+
 margin-right: 3%;
-width:20%;
-float:right;
-min-width:228px;
+
 
 
 }
