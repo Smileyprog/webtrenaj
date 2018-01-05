@@ -287,6 +287,7 @@ function show(state){
                     ->dataTextField('name')
                     ->dataValueField('id')
                     ->filter('contains')
+                    ->close('UpperSelectsChange')
                     ->placeholder('Выберите бренд')
                     ->suggest(false)
                     ->change('onOpenSubcategory')
@@ -547,9 +548,7 @@ function show(state){
            
            $dataSource = new \Kendo\Data\DataSource();
            
-         //$("#grid").data("kendoGrid").dataSource.filter()['filters'].push({field: "Name", operator: "eq", value: "Беговая дорожка"})
-
-           
+        
            $grid = new \Kendo\UI\Grid('grid');
 
            // Блок колонок для заполнения Таблицы
@@ -626,8 +625,8 @@ function show(state){
            $dataSource->data($resultJson)
                       ->batch(true)
                       ->pageSize(200)
-                      ->schema($schema);
-                      //->addFilterItem($datasourceFilterCategory);
+                      ->schema($schema)
+                      ->addFilterItem($datasourceFilterCategory);
            
            $grid->addColumn($productName, $unitPrice, $unitsInStock, $discontinued, $currency, $categoryId, $subCategoryId, $ImagePath, $avability, $additional )
                 ->dataSource($dataSource)
@@ -1059,8 +1058,9 @@ $window->title('Загрузка товара')
 
 $('#models').keyup(function() {
 
-  //console.log($("#grid").data('kendoGrid'));
+  UpperSelectsChange();
 
+  /*
 var data = $("#grid").data('kendoGrid').dataSource.data();
 var val = $('#models').val().toLowerCase();
 
@@ -1070,7 +1070,7 @@ var result = data.filter(function(element){
 })
 
 console.log(result)
-
+*/
   
 })
 
@@ -1190,16 +1190,11 @@ if (summ != '' && summ != undefined) {
 
 var dataGrid = $("#grid").data("kendoGrid");
 
-//console.log($('#kat')[0].value + $('input[name="kat_input"]').val());
-//console.log($('#podkat')[0].value + $('input[name="podkat_input"]').val());
-//console.log($('#brand')[0].value + $('input[name="brand_input"]').val());
-
-
-
 var catVal = $('input[name="kat_input"]').val();
 var catId = $('#kat')[0].value; 
 var podCatId = $('#podkat')[0].value;
 var brandId = $('#brand')[0].value;
+var customFilter = $('#models').val().toLowerCase();
 
 console.log(podCatId);
 
@@ -1214,7 +1209,17 @@ if(podCatId != '')
 dataGrid.dataSource.filter()['filters'].push({field: "subcategory_id", operator: "eq", value: podCatId});
 
 if(brandId != '')
-dataGrid.dataSource.filter()['filters'].push({field: "subcategory_id", operator: "eq", value: brandId});
+dataGrid.dataSource.filter()['filters'].push({field: "brand_id", operator: "eq", value: brandId});
+
+if(customFilter != '')
+dataGrid.dataSource.filter()['filters'].push({
+field: "Model", 
+
+operator: function(element){
+  return String(element).toLowerCase().indexOf(customFilter) > -1;
+},
+value: customFilter
+});
 
 
 //Рендер таблицы с новыми данными
