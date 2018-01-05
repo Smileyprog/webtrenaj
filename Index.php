@@ -313,11 +313,11 @@ function show(state){
               
             //  $unic = array_unique($finalArr);
 
-             // $countries = array('Один', 'Два', 'Три', 'Четыре', 'Пять', 'Шесть', 'Семь',
-               // 'Восемь', 'Девять', 'Десять');
+              $countries = array('Один', 'Два', 'Три', 'Четыре', 'Пять', 'Шесть', 'Семь',
+               'Восемь', 'Девять', 'Десять');
 
               $dataSource = new \Kendo\Data\DataSource();
-              $dataSource->data($unic);
+              $dataSource->data($countries);
 
               $autoComplete = new \Kendo\UI\AutoComplete('models');
 
@@ -828,8 +828,9 @@ $gridPopUp = new \Kendo\UI\Grid('gridPopUp');
 
 
 $commandItemEdit = new \Kendo\UI\GridColumnCommandItem();
-$commandItemEdit ->name('destroy')
-                 ->text('Удалить');
+$commandItemEdit ->name('destroyTEN')
+                 ->text('Удалить')
+                 ->click('gridDelBut');
 
 
 $command = new \Kendo\UI\GridColumn();
@@ -1054,7 +1055,51 @@ $window->title('Загрузка товара')
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <script type="text/javascript">
+
+
+function gridDelBut(e) {
+
+  console.log(e)
+
+  //onsole.log(e.parents())
+//console.log(e.currentTarget.parentNode.childNodes)
+
+//var skidka = e.currentTarget.parentNode.childNodes[8].innerText
+//var skidka = e.currentTarget.parentNode[0].childNodes
+//var summa = e.currentTarget.parentNode.childNodes[6].innerText
+//var count = e.currentTarget.parentNode.childNodes[5].innerText
+
+//console.log(skidka)
+//console.log(summa)
+//console.log(count)
+
+
+}
+
+
+
 
 
 $('#models').keyup(function() {
