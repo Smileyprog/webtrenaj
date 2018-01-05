@@ -169,7 +169,9 @@
 function show(state){
 
   document.getElementById('popupWindow').style.display = state;     
-  document.getElementById('popupWrap').style.display = state;       
+  document.getElementById('popupWrap').style.display = state;     
+  if (state == 'none')
+  $("#grid").data("kendoGrid").clearSelection()  
 }
 
 //<img class="close" onclick="show('none')" src="http://sergey-oganesyan.ru/wp-content/uploads/2014/01/close.png">
@@ -828,7 +830,8 @@ $gridPopUp = new \Kendo\UI\Grid('gridPopUp');
 
 $commandItemEdit = new \Kendo\UI\GridColumnCommandItem();
 $commandItemEdit ->name('destroy')
-                 ->text('Удалить');
+                 ->text('Удалить')
+                 ->click('recalculateProposal');
 
 
 $command = new \Kendo\UI\GridColumn();
@@ -1383,7 +1386,6 @@ $('#popupWindow').hide()
 $('#popupWrap').hide()
 
 
-
       var entityGrid  = $("#grid").data("kendoGrid");
       var selectedItem = entityGrid.dataItem(entityGrid.select());
 
@@ -1419,6 +1421,7 @@ $('#popupWrap').hide()
 
       });
 
+      $("#grid").data("kendoGrid").clearSelection()
 // Добавляем данные в футер
 
 var itogSumm = $('#itogo').val()
