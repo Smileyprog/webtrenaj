@@ -181,6 +181,10 @@ background-image: linear-gradient(0deg, #f2f2f2 0%, #dedede 100%);
   margin-left: 3%;
   width:54%;
   height: 300px;
+  display: flex;
+    flex-direction: row;
+    overflow: auto;
+    justify-content: space-between;
 
 }
 
@@ -200,7 +204,8 @@ border-radius: 10px;
 
 .upperLeftLeft {
 display: inline-block;
-  width: 60%;
+  /* width: 60%; */
+  flex-basis: 375px;
 }
 
 .upperLeftLeft tr{
@@ -208,9 +213,10 @@ display: inline-block;
   }
 
 .upperLeftRight {
-display: inline-block;
-  float:right;
-  width:40%;
+/* display: inline-block; */
+   /* float:right; */
+  /* width:40%; */
+  flex-basis: 250px;
 }
 
 .upperLeftRight table {
