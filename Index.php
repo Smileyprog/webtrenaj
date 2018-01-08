@@ -361,35 +361,12 @@ function show(state){
           <div class="leftside">
             <table>
               <tr>
-                <td>% Скидки</td>
+                <td>Скидка</td>
                 <td>
                   <input id="opacity" type="checkbox" class="upperMiddleInput" size=50px />
                 </td>
               </tr>
               <tr>
-                <td>Доп. инфо</td>
-                <td><input type="checkbox" id="dopinfo" class="upperMiddleInput"></td>
-              </tr>
-              <tr>
-                <td>Количество</td>
-                <td><?php
-
-                require_once 'lib/Kendo/Autoload.php';
-
-                $numeric = new \Kendo\UI\NumericTextBox('numeric');
-                $numeric->value(0)
-                ->min(0)
-                ->max(100)
-                ->step(1)
-                ->attr('style', 'width: 100%')
-                ->attr('title', 'numeric');
-
-                echo $numeric->render();
-
-                ?>
-              </td>
-            </tr>
-            <tr>
               <td>Скидка %</td>
               <td><?php
 
@@ -397,7 +374,7 @@ function show(state){
 
               $percentage = new \Kendo\UI\NumericTextBox('percentage');
               $percentage->format('p0')
-              ->value(0.05)
+              ->value(0)
               ->min(0)
               ->max(0.1)
               ->step(0.01)
@@ -408,10 +385,16 @@ function show(state){
 
               ?></td>
             </tr>
+              <tr>
+                <td>Доп. инфо</td>
+                <td><input type="checkbox" id="dopinfoCheck" class="upperMiddleInput"></td>
+              </tr>          
           </table>
+      
           <div class="clearfix">
           </div>
         </div>
+        <textarea readonly rows="4" cols="30" name="dopInfo" id="dopInfo" class="dopInfo"></textarea>
       <!--  <div class="rightside">
           <p>USD <span id="usd" class="eurusd"> 70 р</span></p>
           <p>EUR <span id="eur" class="eurusd"> 90 р</span></p>
@@ -722,6 +705,41 @@ function show(state){
 
             echo $autoComplete1->render();
             ?></td>
+          </tr>
+          <tr>
+            <td>Менеджер</td>
+            <td>
+                              <?php
+                #endregion
+              require_once 'lib/Kendo/Autoload.php';
+              require_once 'lib/DataSourceResult.php';
+              
+              $result = new DataSourceResult('mysql:host=localhost;dbname=webWithGoogle', 'root', '');
+              
+              $resultJson = $result->read('managers', array('id', 'fio'));
+              
+              $schema = new \Kendo\Data\DataSourceSchema();
+              $schema->data('data')
+                     ->total('total');
+              
+              $category = new \Kendo\Data\DataSource('managersDataSource');
+              $category->data($resultJson)
+                       ->schema($schema) 
+                       ->serverFiltering(true);
+
+            
+              $inputcat = new \Kendo\UI\ComboBox('managers');
+              $inputcat->dataSource($category)
+                    ->dataTextField('fio')
+                    ->dataValueField('id')
+                    ->filter('contains')
+                    ->placeholder('Выберите менеджера')
+                    ->suggest(false)
+                    ->attr('style', 'width: 100%;');
+              
+              echo $inputcat->render();
+                ?>
+            </td>
           </tr>
         </table>
       </div>
@@ -1077,6 +1095,57 @@ $window->title('Загрузка товара')
 
 
 <script type="text/javascript">
+
+
+
+// ДОП ИНФО И СКИДКА
+
+var dopInfoState = 0
+var discountState = 0
+
+$('#dopinfoCheck').click(function() {
+
+  if (dopInfoState == 0 ) {
+
+    $('.dopInfo').css('backgroundColor','#ffffff')
+    $('.dopInfo').removeAttr('readonly')
+
+    window.dopInfoState = 1
+  }
+
+  else if (dopInfoState == 1 ) {
+
+    $('.dopInfo').css('backgroundColor','#efefef')
+    $('.dopInfo').attr('readonly','')
+    $('.dopInfo').val('0.0')
+
+    window.dopInfoState = 0
+  }
+
+})
+
+
+$('#opacity').click(function() {
+
+if (discountState== 0 ) {
+
+  $('.k-formatted-value').css('backgroundColor','#ffffff')
+
+  window.discountState = 1
+}
+
+else if (discountState == 1 ) {
+
+  $('.k-formatted-value').css('backgroundColor','#e5e5e5')
+  $('.k-formatted-value').val('')
+
+  window.discountState = 0
+}
+
+})
+
+
+
 
 
 function gridDelBut(e) {

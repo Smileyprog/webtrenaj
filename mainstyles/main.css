@@ -232,6 +232,29 @@ width: 90px;
 text-align: center;
     }
 
+    .upperMiddle .dopInfo {
+      margin-left: 30px;
+      margin-top:20px;
+      border-radius: 10px;
+      width: 80%;
+      resize: none;
+      background-color: #ededed;
+      }
+
+      .upperMiddle .dopInfo {
+        margin-left: 30px;
+        margin-top:20px;
+        border-radius: 10px;
+        width: 80%;
+        resize: none;
+        background-color: #ededed;
+        }
+
+        .upperMiddle .k-formatted-value {
+
+          background-color: #e5e5e5;
+        }
+
 .refCursDiv {
   margin-top:30px;
 text-align:center;
