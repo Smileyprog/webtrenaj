@@ -1488,7 +1488,6 @@ if(data.length > 0){
   var countOfAll = 0;
 
 data.forEach(function(entry){
-
 countOfAll += Number(entry.Count);
 
 entry.Summ = calculateSum(entry.Price, entry.Count);
