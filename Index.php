@@ -706,41 +706,7 @@ function show(state){
             echo $autoComplete1->render();
             ?></td>
           </tr>
-          <tr>
-            <td>Менеджер</td>
-            <td>
-                              <?php
-                #endregion
-              require_once 'lib/Kendo/Autoload.php';
-              require_once 'lib/DataSourceResult.php';
-              
-              $result = new DataSourceResult('mysql:host=localhost;dbname=webWithGoogle', 'root', '');
-              
-              $resultJson = $result->read('managers', array('id', 'fio'));
-              
-              $schema = new \Kendo\Data\DataSourceSchema();
-              $schema->data('data')
-                     ->total('total');
-              
-              $category = new \Kendo\Data\DataSource('managersDataSource');
-              $category->data($resultJson)
-                       ->schema($schema) 
-                       ->serverFiltering(true);
-
-            
-              $inputcat = new \Kendo\UI\ComboBox('managers');
-              $inputcat->dataSource($category)
-                    ->dataTextField('fio')
-                    ->dataValueField('id')
-                    ->filter('contains')
-                    ->placeholder('Выберите менеджера')
-                    ->suggest(false)
-                    ->attr('style', 'width: 100%;');
-              
-              echo $inputcat->render();
-                ?>
-            </td>
-          </tr>
+         
         </table>
       </div>
         </div>
@@ -1550,7 +1516,7 @@ summ = summ.replace(",",".");
 summ = summ.replace(' ','')
 
 itogSumm = Number(count)
-summ = Number(price)
+summ = Number(summ)
 
 
 
@@ -1592,26 +1558,86 @@ var data = $('#gridPopUp').data('kendoGrid').dataSource.data();
 if(data.length > 0){
 
   var countOfAll = 0;
+  var beforeSumm = $('#footerSumm').val()
+  var beforeDiscount = $('#footerDiscount').val()
+  var beforeItog = $('#itogo').val()
+  var presumm = 0
+  var preItog = 0
+
+  if (beforeSumm > 0 ) {
+
+    beforeSumm = razblagorodit(beforeSumm)
+    beforeDiscount = razblagorodit(beforeDiscount)
+    beforeItog = razblagorodit(beforeItog)
+
+  }
+
+  else {
+
+    beforeSumm = 0
+    beforeDiscount = 0
+    beforeItog = 0
+
+  }
+
+
+
+
 
 data.forEach(function(entry){
+
+console.log(entry)
+
 countOfAll += Number(entry.Count);
 
-entry.Summ = calculateSum(entry.Price, entry.Count);
+preSumm = calculateSum(entry.Price, entry.Count);
 
-entry.Discount = calculatePercent(entry.Percent, entry.Summ);
+preDiscount = calculatePercent(entry.Percent, entry.Summ);
 
 entry.Total = ParseNumNew(entry.Summ) - ParseNumNew(entry.Discount);
 
+
+beforeSumm += preSumm
+beforeItog += entry.Total
+beforeDiscount += preDiscount
+
 })
+
+
+
+
+
+
 
 $('#footerCount')[0].value = countOfAll;
 $('#footerPosCount')[0].value = data.length;
+
+$('#footerSumm').val(oblagorodit(beforeSumm))
+$('#itogo').val(oblagorodit(beforeItog))
+$('footerDiscount').val(oblagorodit(beforeDiscount))
 
 $('#gridPopUp').data('kendoGrid').refresh()
 
 }
   
 }
+
+function razblagorodit(str) {
+
+  str = str.replace(",",".");
+  str = str.replace(' ','')
+  str = Number(str)
+  return str
+}
+
+function oblagorodit(int) {
+
+  int = int.toFixed(2)
+  int = String(int).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ')
+  int= int.replace(".",",");
+  return int
+} 
+
 
 function calculateSum(price, amount){
 
