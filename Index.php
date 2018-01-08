@@ -26,7 +26,7 @@
     header("Location: auth.php");
     return;
   }
-
+// 
 #endregion
  #region
 ?>
@@ -169,9 +169,7 @@
 function show(state){
 
   document.getElementById('popupWindow').style.display = state;     
-  document.getElementById('popupWrap').style.display = state;     
-  if (state == 'none')
-  $("#grid").data("kendoGrid").clearSelection()  
+  document.getElementById('popupWrap').style.display = state;       
 }
 
 //<img class="close" onclick="show('none')" src="http://sergey-oganesyan.ru/wp-content/uploads/2014/01/close.png">
@@ -289,7 +287,6 @@ function show(state){
                     ->dataTextField('name')
                     ->dataValueField('id')
                     ->filter('contains')
-                    ->close('UpperSelectsChange')
                     ->placeholder('Выберите бренд')
                     ->suggest(false)
                     ->change('onOpenSubcategory')
@@ -316,11 +313,11 @@ function show(state){
               
             //  $unic = array_unique($finalArr);
 
-             // $countries = array('Один', 'Два', 'Три', 'Четыре', 'Пять', 'Шесть', 'Семь',
-               // 'Восемь', 'Девять', 'Десять');
+              $countries = array('Один', 'Два', 'Три', 'Четыре', 'Пять', 'Шесть', 'Семь',
+               'Восемь', 'Девять', 'Десять');
 
               $dataSource = new \Kendo\Data\DataSource();
-              $dataSource->data($unic);
+              $dataSource->data($countries);
 
               $autoComplete = new \Kendo\UI\AutoComplete('models');
 
@@ -550,7 +547,9 @@ function show(state){
            
            $dataSource = new \Kendo\Data\DataSource();
            
-        
+         //$("#grid").data("kendoGrid").dataSource.filter()['filters'].push({field: "Name", operator: "eq", value: "Беговая дорожка"})
+
+           
            $grid = new \Kendo\UI\Grid('grid');
 
            // Блок колонок для заполнения Таблицы
@@ -627,8 +626,8 @@ function show(state){
            $dataSource->data($resultJson)
                       ->batch(true)
                       ->pageSize(200)
-                      ->schema($schema)
-                      ->addFilterItem($datasourceFilterCategory);
+                      ->schema($schema);
+                      //->addFilterItem($datasourceFilterCategory);
            
            $grid->addColumn($productName, $unitPrice, $unitsInStock, $discontinued, $currency, $categoryId, $subCategoryId, $ImagePath, $avability, $additional )
                 ->dataSource($dataSource)
@@ -829,9 +828,9 @@ $gridPopUp = new \Kendo\UI\Grid('gridPopUp');
 
 
 $commandItemEdit = new \Kendo\UI\GridColumnCommandItem();
-$commandItemEdit ->name('destroy')
+$commandItemEdit ->name('destroyTEN')
                  ->text('Удалить')
-                 ->click('recalculateProposal');
+                 ->click('gridDelBut');
 
 
 $command = new \Kendo\UI\GridColumn();
@@ -1056,14 +1055,57 @@ $window->title('Загрузка товара')
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <script type="text/javascript">
+
+
+function gridDelBut(e) {
+
+  console.log(e)
+
+  //onsole.log(e.parents())
+//console.log(e.currentTarget.parentNode.childNodes)
+
+//var skidka = e.currentTarget.parentNode.childNodes[8].innerText
+//var skidka = e.currentTarget.parentNode[0].childNodes
+//var summa = e.currentTarget.parentNode.childNodes[6].innerText
+//var count = e.currentTarget.parentNode.childNodes[5].innerText
+
+//console.log(skidka)
+//console.log(summa)
+//console.log(count)
+
+
+}
+
+
+
 
 
 $('#models').keyup(function() {
 
-  UpperSelectsChange();
+  //console.log($("#grid").data('kendoGrid'));
 
-  /*
 var data = $("#grid").data('kendoGrid').dataSource.data();
 var val = $('#models').val().toLowerCase();
 
@@ -1073,7 +1115,7 @@ var result = data.filter(function(element){
 })
 
 console.log(result)
-*/
+
   
 })
 
@@ -1193,11 +1235,16 @@ if (summ != '' && summ != undefined) {
 
 var dataGrid = $("#grid").data("kendoGrid");
 
+//console.log($('#kat')[0].value + $('input[name="kat_input"]').val());
+//console.log($('#podkat')[0].value + $('input[name="podkat_input"]').val());
+//console.log($('#brand')[0].value + $('input[name="brand_input"]').val());
+
+
+
 var catVal = $('input[name="kat_input"]').val();
 var catId = $('#kat')[0].value; 
 var podCatId = $('#podkat')[0].value;
 var brandId = $('#brand')[0].value;
-var customFilter = $('#models').val().toLowerCase();
 
 console.log(podCatId);
 
@@ -1212,17 +1259,7 @@ if(podCatId != '')
 dataGrid.dataSource.filter()['filters'].push({field: "subcategory_id", operator: "eq", value: podCatId});
 
 if(brandId != '')
-dataGrid.dataSource.filter()['filters'].push({field: "brand_id", operator: "eq", value: brandId});
-
-if(customFilter != '')
-dataGrid.dataSource.filter()['filters'].push({
-field: "Model", 
-
-operator: function(element){
-  return String(element).toLowerCase().indexOf(customFilter) > -1;
-},
-value: customFilter
-});
+dataGrid.dataSource.filter()['filters'].push({field: "subcategory_id", operator: "eq", value: brandId});
 
 
 //Рендер таблицы с новыми данными
@@ -1386,6 +1423,7 @@ $('#popupWindow').hide()
 $('#popupWrap').hide()
 
 
+
       var entityGrid  = $("#grid").data("kendoGrid");
       var selectedItem = entityGrid.dataItem(entityGrid.select());
 
@@ -1421,7 +1459,6 @@ $('#popupWrap').hide()
 
       });
 
-      $("#grid").data("kendoGrid").clearSelection()
 // Добавляем данные в футер
 
 var itogSumm = $('#itogo').val()
