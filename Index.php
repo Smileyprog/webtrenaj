@@ -1528,74 +1528,48 @@ console.log(JSON.stringify(dataToSend));
 
 function recalculateProposal(arg){
 
-var data = $('#gridPopUp').data('kendoGrid').dataSource.data();
-
-if(data.length > 0){
-
-  var countOfAll = 0;
-  var beforeSumm = $('#footerSumm').val()
-  var beforeDiscount = $('#footerDiscount').val()
-  var beforeItog = $('#itogo').val()
-  var presumm = 0
-  var preItog = 0
-
-  if (beforeSumm > 0 ) {
-
-    beforeSumm = razblagorodit(beforeSumm)
-    beforeDiscount = razblagorodit(beforeDiscount)
-    beforeItog = razblagorodit(beforeItog)
-
-  }
-
-  else {
-
-    beforeSumm = 0
-    beforeDiscount = 0
-    beforeItog = 0
-
-  }
-
-
-
-
-
-data.forEach(function(entry){
-
-console.log(entry)
-
-countOfAll += Number(entry.Count);
-
-preSumm = calculateSum(entry.Price, entry.Count);
-
-preDiscount = calculatePercent(entry.Percent, entry.Summ);
-
-entry.Total = ParseNumNew(entry.Summ) - ParseNumNew(entry.Discount);
-
-
-beforeSumm += preSumm
-beforeItog += entry.Total
-beforeDiscount += preDiscount
-
-})
-
-
-
-
-
-
-
-$('#footerCount')[0].value = countOfAll;
-$('#footerPosCount')[0].value = data.length;
-
-$('#footerSumm').val(oblagorodit(beforeSumm))
-$('#itogo').val(oblagorodit(beforeItog))
-$('footerDiscount').val(oblagorodit(beforeDiscount))
-
-$('#gridPopUp').data('kendoGrid').refresh()
-
-}
+  var data = $('#gridPopUp').data('kendoGrid').dataSource.data();
   
-}
+  if(data.length > 0){
+  
+    var countOfAll = 0;
+    var summ = 0;
+    var discount = 0;
+    var total = 0;
+  
+  data.forEach(function(entry){
+  
+  countOfAll += Number(entry.Count);
+  
+  entry.Summ = calculateSum(entry.Price, entry.Count);
+  summ += entry.Summ;
+
+
+  entry.Discount = calculatePercent(entry.Percent, entry.Summ);
+  discount += entry.Discount;
+
+  entry.Total = ParseNumNew(entry.Summ) - ParseNumNew(entry.Discount);
+  total += entry.Total;
+  })
+  
+  $('#footerCount')[0].value = countOfAll;
+  $('#footerPosCount')[0].value = data.length;
+  $('#footerDiscount')[0].value = discount  ;
+  $('#footerSumm')[0].value = summ  ;
+  $('#itogo')[0].value = total == 'NaN' ? 0 : total  ;
+  
+  }
+  else if (data.length == 0){
+  $('#footerCount')[0].value = 0;
+  $('#footerPosCount')[0].value = 0;
+  $('#footerDiscount')[0].value = 0  ;
+  $('#footerSumm')[0].value = 0  ;
+  $('#itogo')[0].value = 0 ;
+ 
+
+  }
+  $('#gridPopUp').data('kendoGrid').refresh()
+  }
 
 function razblagorodit(str) {
 
@@ -1603,6 +1577,13 @@ function razblagorodit(str) {
   str = str.replace(' ','')
   str = Number(str)
   return str
+}
+
+function currencyConverter(value, currecyNow, currencyTo){
+
+
+
+
 }
 
 function oblagorodit(int) {
