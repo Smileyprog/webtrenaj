@@ -626,8 +626,8 @@ function show(state){
            $dataSource->data($resultJson)
                       ->batch(true)
                       ->pageSize(200)
-                      ->schema($schema);
-                      //->addFilterItem($datasourceFilterCategory);
+                      ->schema($schema)
+                      ->addFilterItem($datasourceFilterCategory);
            
            $grid->addColumn($productName, $unitPrice, $unitsInStock, $discontinued, $currency, $categoryId, $subCategoryId, $ImagePath, $avability, $additional )
                 ->dataSource($dataSource)
