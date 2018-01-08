@@ -40,6 +40,15 @@ body {
 	text-decoration: none;
 }
 
+.incorrect {
+
+	color:red;
+	font-weight: bold;
+	margin: auto;
+
+
+}
+
 #wrapper {
 	/* Center wrapper perfectly */
 	width: 350px;
@@ -312,7 +321,7 @@ font-size: 11pt;
 	bottom: -1px;
 }
 
-/* Стили бара vladmaxi, можно удалить */
+/* пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ vladmaxi, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
 .vladmaxi-top{
 	line-height: 24px;
 	font-size: 11px;

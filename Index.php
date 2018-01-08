@@ -18,7 +18,7 @@
     } 
     else
     {
-      echo "<div class='hello'>Здравствуйте, ".$userdata['user_login'].".</div>";
+      echo "<div class='hello'>".$userdata['fio']."</div>";
     }
   }
   else
@@ -178,6 +178,15 @@ function show(state){
       
 </script>
    
+
+   <div class="newManager">
+     <span id="newManagerSpan">Админ. панель</span>
+</div>
+
+<div class="exit">
+  <span id="exitSpan">Сменить пользователя</span>
+</div>
+
 
   <div class="wraper">
     <div class="main">
@@ -1037,6 +1046,20 @@ $window->title('Загрузка товара')
 <script type="text/javascript">
 
 
+$('#exitSpan').click(function() {
+
+  window.location.pathname = '/auth.php'
+
+})
+
+
+$('#newManagerSpan').click(function() {
+
+
+  window.location.pathname = '/admin'
+
+})
+
 
 // ДОП ИНФО И СКИДКА
 
@@ -1554,9 +1577,9 @@ function recalculateProposal(arg){
   
   $('#footerCount')[0].value = countOfAll;
   $('#footerPosCount')[0].value = data.length;
-  $('#footerDiscount')[0].value = discount  ;
-  $('#footerSumm')[0].value = summ  ;
-  $('#itogo')[0].value = total == 'NaN' ? 0 : total  ;
+  $('#footerDiscount')[0].value = oblagorodit(discount)  ;
+  $('#footerSumm')[0].value = oblagorodit(summ)  ;
+  $('#itogo')[0].value = total == 'NaN' ? 0 : oblagorodit(total)  ;
   
   }
   else if (data.length == 0){

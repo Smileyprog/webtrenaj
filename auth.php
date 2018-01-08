@@ -51,7 +51,7 @@ if(isset($_POST['submit']))
     }
     else
     {
-        print "Вы ввели неправильный логин/пароль";
+       echo 'Вы ввели неправильный логин/пароль';
     }
 }
 ?>
@@ -60,7 +60,7 @@ if(isset($_POST['submit']))
 <html>
 <head>
 	<!-- <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> -->
-	<title>Авторизация</title>
+    <title>Авторизация</title>
 	<link rel="stylesheet" type="text/css" href="mainstyles/authstyle.css"> <!-- Авторизация -->
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
 </head>
@@ -106,8 +106,7 @@ if(isset($_POST['submit']))
         <input type="hidden" id="ip" name="ip" value="0">
 
     </div>
-    <div class="center">
-
+    <div id="incorrect" class="center">
 </div>
 </form>
 </div>

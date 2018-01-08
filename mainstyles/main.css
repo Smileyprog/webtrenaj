@@ -33,6 +33,41 @@ top: 0;
 
 /*ОБЩИЕ*/
 
+
+.newManager {
+
+  position:absolute;
+  right:5;
+  top:5;
+  border-left: 1px solid grey;
+  border-bottom: 1px solid grey;
+  padding-bottom: 5px;
+  padding-left:5px;
+}
+
+.newManager:hover {
+
+cursor:pointer;
+
+}
+
+
+.exit {
+
+  position:absolute;
+  left:5;
+  top:5;
+  padding-bottom: 5px;
+  padding-right:5px;
+  border-right: 1px solid grey;
+  border-bottom: 1px solid grey;
+}
+
+.exit:hover {
+
+  cursor:pointer;
+}
+
 .tempos {
   display:none;
   padding-bottom: -30px;
@@ -241,14 +276,6 @@ text-align: center;
       background-color: #ededed;
       }
 
-      .upperMiddle .dopInfo {
-        margin-left: 30px;
-        margin-top:20px;
-        border-radius: 10px;
-        width: 80%;
-        resize: none;
-        background-color: #ededed;
-        }
 
         .upperMiddle .k-formatted-value {
 
