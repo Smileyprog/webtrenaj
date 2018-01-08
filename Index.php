@@ -169,7 +169,9 @@
 function show(state){
 
   document.getElementById('popupWindow').style.display = state;     
-  document.getElementById('popupWrap').style.display = state;       
+  document.getElementById('popupWrap').style.display = state; 
+  if (state == 'none')
+  $("#grid").data("kendoGrid").clearSelection()        
 }
 
 //<img class="close" onclick="show('none')" src="http://sergey-oganesyan.ru/wp-content/uploads/2014/01/close.png">
@@ -287,6 +289,7 @@ function show(state){
                     ->dataTextField('name')
                     ->dataValueField('id')
                     ->filter('contains')
+                    ->close('UpperSelectsChange')
                     ->placeholder('Выберите бренд')
                     ->suggest(false)
                     ->change('onOpenSubcategory')
@@ -313,11 +316,11 @@ function show(state){
               
             //  $unic = array_unique($finalArr);
 
-              $countries = array('Один', 'Два', 'Три', 'Четыре', 'Пять', 'Шесть', 'Семь',
-               'Восемь', 'Девять', 'Десять');
+                         // $countries = array('Один', 'Два', 'Три', 'Четыре', 'Пять', 'Шесть', 'Семь',
+               // 'Восемь', 'Девять', 'Десять');
 
-              $dataSource = new \Kendo\Data\DataSource();
-              $dataSource->data($countries);
+               $dataSource = new \Kendo\Data\DataSource();
+               $dataSource->data($unic);
 
               $autoComplete = new \Kendo\UI\AutoComplete('models');
 
@@ -612,6 +615,7 @@ function show(state){
                       ->schema($schema)
                       ->addFilterItem($datasourceFilterCategory);
            
+           
            $grid->addColumn($productName, $unitPrice, $unitsInStock, $discontinued, $currency, $categoryId, $subCategoryId, $ImagePath, $avability, $additional )
                 ->dataSource($dataSource)
                 ->persistSelection(true)
@@ -846,9 +850,9 @@ $gridPopUp = new \Kendo\UI\Grid('gridPopUp');
 
 
 $commandItemEdit = new \Kendo\UI\GridColumnCommandItem();
-$commandItemEdit ->name('destroyTEN')
-                 ->text('Удалить')
-                 ->click('gridDelBut');
+$commandItemEdit ->name('destroy')
+                                ->text('Удалить')
+->click('recalculateProposal');
 
 
 $command = new \Kendo\UI\GridColumn();
@@ -1064,36 +1068,6 @@ $window->title('Загрузка товара')
 }         
 </style>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <script type="text/javascript">
 
 
@@ -1152,17 +1126,6 @@ function gridDelBut(e) {
 
   console.log(e)
 
-  //onsole.log(e.parents())
-//console.log(e.currentTarget.parentNode.childNodes)
-
-//var skidka = e.currentTarget.parentNode.childNodes[8].innerText
-//var skidka = e.currentTarget.parentNode[0].childNodes
-//var summa = e.currentTarget.parentNode.childNodes[6].innerText
-//var count = e.currentTarget.parentNode.childNodes[5].innerText
-
-//console.log(skidka)
-//console.log(summa)
-//console.log(count)
 
 
 }
@@ -1173,8 +1136,9 @@ function gridDelBut(e) {
 
 $('#models').keyup(function() {
 
-  //console.log($("#grid").data('kendoGrid'));
+  UpperSelectsChange();
 
+  /*
 var data = $("#grid").data('kendoGrid').dataSource.data();
 var val = $('#models').val().toLowerCase();
 
@@ -1184,7 +1148,7 @@ var result = data.filter(function(element){
 })
 
 console.log(result)
-
+*/
   
 })
 
@@ -1314,6 +1278,8 @@ var catVal = $('input[name="kat_input"]').val();
 var catId = $('#kat')[0].value; 
 var podCatId = $('#podkat')[0].value;
 var brandId = $('#brand')[0].value;
+var brandId = $('#brand')[0].value;
+var customFilter = $('#models').val().toLowerCase();
 
 console.log(podCatId);
 
@@ -1328,9 +1294,17 @@ if(podCatId != '')
 dataGrid.dataSource.filter()['filters'].push({field: "subcategory_id", operator: "eq", value: podCatId});
 
 if(brandId != '')
-dataGrid.dataSource.filter()['filters'].push({field: "subcategory_id", operator: "eq", value: brandId});
+dataGrid.dataSource.filter()['filters'].push({field: "brand_id", operator: "eq", value: brandId});
 
+if(customFilter != '')
+dataGrid.dataSource.filter()['filters'].push({
+field: "Model", 
 
+operator: function(element){
+  return String(element).toLowerCase().indexOf(customFilter) > -1;
+},
+value: customFilter
+});
 //Рендер таблицы с новыми данными
 dataGrid.dataSource.read();
 
@@ -1527,6 +1501,7 @@ $('#popupWrap').hide()
 
 
       });
+      $("#grid").data("kendoGrid").clearSelection()
 
 // Добавляем данные в футер
 
