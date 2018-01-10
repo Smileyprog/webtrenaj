@@ -329,7 +329,7 @@ function show(state){
                // 'Восемь', 'Девять', 'Десять');
 
                $dataSource = new \Kendo\Data\DataSource();
-               $dataSource->data($unic);
+               //$dataSource->data($unic);
 
               $autoComplete = new \Kendo\UI\AutoComplete('models');
 
@@ -888,7 +888,116 @@ echo $gridPopUp->render();
 
 
 
+  <? 
+  
+$transportSave = new \Kendo\Data\DataSourceTransport();
 
+$createSave = new \Kendo\Data\DataSourceTransportCreate();
+
+$createSave->url('../ajaxInfo/saveloadproposal.php?type=create')
+     ->contentType('application/json')
+     ->dataType("json")
+     ->type('POST');
+
+$readSave = new \Kendo\Data\DataSourceTransportRead();
+
+$readSave->url('../ajaxInfo/saveloadproposal.php?type=read')
+     ->contentType('application/json')
+     ->type('POST');
+
+$updateSave = new \Kendo\Data\DataSourceTransportUpdate();
+
+$updateSave->url('../ajaxInfo/saveloadproposal.php?type=update')
+     ->contentType('application/json')
+     ->dataType("json")
+     ->type('POST');
+
+$destroySave = new \Kendo\Data\DataSourceTransportDestroy();
+
+$destroySave->url('../ajaxInfo/saveloadproposal.php?type=destroy')
+     ->contentType('application/json')
+     ->dataType("json")
+     ->type('POST');
+
+$transportSave->create($createSave)
+          ->read($readSave)
+          ->update($updateSave)
+          ->destroy($destroySave)
+          ->parameterMap('function(data) {
+            return kendo.stringify(data);
+        }');
+
+          $modelSave = new \Kendo\Data\DataSourceSchemaModel();
+
+          $productIDFieldSave = new \Kendo\Data\DataSourceSchemaModelField('id');
+          $productIDFieldSave->type('number')
+                         ->editable(false);
+          
+          $productNameFieldSave = new \Kendo\Data\DataSourceSchemaModelField('name');
+          $productNameFieldSave->type('string');
+          
+          $unitPriceFieldSave = new \Kendo\Data\DataSourceSchemaModelField('savedata');
+          $unitPriceFieldSave->type('string');
+          
+          $unitsInStockFieldSave = new \Kendo\Data\DataSourceSchemaModelField('linkos');
+          $unitsInStockFieldSave->type('string');
+          
+
+          $modelSave->id('id')
+              ->addField($productIDFieldSave)
+              ->addField($productNameFieldSave)
+              ->addField($unitPriceFieldSave)
+              ->addField($unitsInStockFieldSave);
+              
+$schemaSave = new \Kendo\Data\DataSourceSchema();
+$schemaSave->data('data')
+       ->errors('errors')
+       ->model($modelSave)
+       ->total('total');
+
+       $dataSourceSave = new \Kendo\Data\DataSource();
+
+      $dataSourceSave->transport($transportSave)
+           ->batch(true)
+           ->pageSize(30)
+           ->schema($schemaSave);
+
+$gridSave = new \Kendo\UI\Grid('grid3');
+
+$productIdSave = new \Kendo\UI\GridColumn();
+$productIdSave->field('id')
+            ->title('Айдиха');
+
+$productNameSave = new \Kendo\UI\GridColumn();
+$productNameSave->field('name')
+            ->title('Название сохранения');
+
+$unitPriceSave = new \Kendo\UI\GridColumn();
+$unitPriceSave->field('savedata')
+          ->title('Техническая информация');
+
+$unitsInStockSave = new \Kendo\UI\GridColumn();
+$unitsInStockSave->field('linkos')
+          ->title('Ссылка в гугл');
+
+
+$commandSave = new \Kendo\UI\GridColumn();
+$commandSave->addCommandItem('destroy')
+        ->title('УНИЧТОЖЕНИЕ')
+        ->width(180);
+
+$gridSave->addColumn($productNameSave, $unitPriceSave, $unitsInStockSave, $commandSave)
+     ->dataSource($dataSourceSave)
+     ->addToolbarItem(new \Kendo\UI\GridToolbarItem('create'),
+        new \Kendo\UI\GridToolbarItem('save'), new \Kendo\UI\GridToolbarItem('cancel'))
+     ->height(400)
+     ->navigatable(true)
+     ->editable(true)
+     ->pageable(true);
+
+echo $gridSave->render();
+
+?>
 </div> <!-- Конец Main -->
 </div> <!-- Конец Wraper -->
 
@@ -1149,6 +1258,7 @@ $('#popupCount').change(popUpSumm)
 $('#popupCount').keyup(popUpSumm)
   
 function popUpSumm() {
+  
 
 var price =  $('#popupPrice').val()
 var count = $('#popupCount').val()
