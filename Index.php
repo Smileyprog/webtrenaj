@@ -499,6 +499,11 @@ function show(state){
                 <span class="tempos" id="popup" onclick="sort()" >ПопАп</span></p>
                 <!--onclick="show('block')"-->
                 <?php
+                echo (new \Kendo\UI\Button('textButton0'))
+                ->content('Загрузить КП')
+                ->click('openKp')
+                ->render();
+                
                 echo (new \Kendo\UI\Button('textButton'))
                 ->content('Выделить все')
                 ->render();
@@ -888,7 +893,30 @@ echo $gridPopUp->render();
 
 
 
-  <? 
+
+<!-- НАЧАЛО ЗАГРУЗКИ КП -->
+  <?php
+
+require_once 'lib/Kendo/Autoload.php';
+
+$window = new \Kendo\UI\Window('loadKP');
+
+$LoadKpPosition = new \Kendo\UI\WindowPosition;
+$LoadKpPosition ->top('200px');
+
+
+$window->title('Загрузить КП')
+       ->width('800px')
+       ->close('onClose')
+       ->position($LoadKpPosition)
+       ->startContent();
+?>
+
+<!-- ЗАГРУЗКА КП ТЕЛО -->
+
+
+
+<? 
   
 $transportSave = new \Kendo\Data\DataSourceTransport();
 
@@ -999,6 +1027,69 @@ $gridSave->addColumn($productNameSave, $unitPriceSave, $unitsInStockSave, $comma
 echo $gridSave->render();
 
 ?>
+
+
+
+<!-- ЗАГРУЗКА КП КОНЕЦ ТЕЛА -->
+
+<?php
+    $window->endContent();
+
+    echo $window->render();
+?>
+
+<!-- <span id="undo" style="display:block" class="k-button hide-on-narrow">Click here to open the window.</span> -->
+
+<div class="responsive-message"></div>
+
+<script>
+    function onClose() {
+        $("#undo").show();
+    }
+
+    // $(function() {
+    //     $("#undo").click(function() {
+    //         $("#window").data("kendoWindow").open();
+    //         $("#undo").hide();
+    //     });
+    // });
+</script>
+
+<style>
+
+
+
+	.k-window-content p {
+		margin-bottom: 1em;
+	}
+	.k-window-content a {
+		color: #BBB;
+	}
+    @media screen and (max-width: 1023px) {
+        div.k-window {
+            display: none !important;
+        }
+    }
+</style>                    
+
+<!-- КОНЕЦ ЗАГРУЗКИ КП -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
 </div> <!-- Конец Main -->
 </div> <!-- Конец Wraper -->
 
@@ -1153,7 +1244,42 @@ $window->title('Загрузка товара')
 }         
 </style>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <script type="text/javascript">
+
+
+function openKp() {
+
+      $("#loadKP").data("kendoWindow").open();
+       $('.k-widget').css('left','0')
+       $('.k-widget').css('right','0')
+       $('.k-widget').css('marginLeft','auto')
+       $('.k-widget').css('marginRight','auto')
+
+}
 
 
 $('#exitSpan').click(function() {
@@ -1411,8 +1537,9 @@ dataGrid.dataSource.read();
 }
 
 $( document ).ready(function() {
-
+  $('#loadKP').data("kendoWindow").close();
   $("#loadPopUpWidget").data("kendoWindow").close();
+ 
 
   mainSetCurs()
 

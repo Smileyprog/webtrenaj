@@ -84,14 +84,14 @@ cursor:pointer;
 }
 
 
-.uppermiddleLeft #textbutton,  .uppermiddleLeft #textbutton1{
+.uppermiddleLeft #textbutton0, .uppermiddleLeft #textbutton,  .uppermiddleLeft #textbutton1{
 
 margin-right: 30px;
 
 }
 
 
-.uppermiddleLeft #textbutton,  .uppermiddleLeft #textbutton1, .uppermiddleLeft #textbutton2{
+.uppermiddleLeft #textbutton0, .uppermiddleLeft #textbutton,  .uppermiddleLeft #textbutton1, .uppermiddleLeft #textbutton2{
 
 width:300px;
 padding: 7px 0px;
