@@ -981,9 +981,10 @@ $unitsInStockSave->field('linkos')
           ->title('Ссылка в гугл');
 
 
+
+
 $commandSave = new \Kendo\UI\GridColumn();
 $commandSave->addCommandItem('destroy')
-        ->title('УНИЧТОЖЕНИЕ')
         ->width(180);
 
 $gridSave->addColumn($productNameSave, $unitPriceSave, $unitsInStockSave, $commandSave)
