@@ -1316,7 +1316,6 @@ $('#dopinfoCheck').click(function() {
 
     $('.dopInfo').css('backgroundColor','#efefef')
     $('.dopInfo').attr('readonly','')
-    $('.dopInfo').val('0.0')
 
     window.dopInfoState = 0
   }
