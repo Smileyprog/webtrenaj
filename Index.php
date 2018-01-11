@@ -914,7 +914,6 @@ $createSave = new \Kendo\Data\DataSourceTransportCreate();
 
 $createSave->url('../ajaxInfo/saveloadproposal.php?type=create')
      ->contentType('application/json')
-     ->dataType("json")
      ->type('POST');
 
 $readSave = new \Kendo\Data\DataSourceTransportRead();
@@ -933,7 +932,6 @@ $destroySave = new \Kendo\Data\DataSourceTransportDestroy();
 
 $destroySave->url('../ajaxInfo/saveloadproposal.php?type=destroy')
      ->contentType('application/json')
-     ->dataType("json")
      ->type('POST');
 
 $transportSave->create($createSave)
@@ -991,7 +989,8 @@ $productNameSave->field('name')
 
 $unitPriceSave = new \Kendo\UI\GridColumn();
 $unitPriceSave->field('savedata')
-          ->title('Техническая информация');
+          ->title('Техническая информация')
+          ->hidden(true);
 
 $unitsInStockSave = new \Kendo\UI\GridColumn();
 $unitsInStockSave->field('linkos')
@@ -1001,10 +1000,7 @@ $jsCommandResave = new \Kendo\JavaScriptFunction('ReSaveCommand');
 $jsCommandLoad = new \Kendo\JavaScriptFunction('LoadCommand');
 
 
-$commandItemEdit = new \Kendo\UI\GridColumnCommandItem();
-$commandItemEdit ->name('destroy')
-                  ->text('Удалить')
-                  ->click('');
+
 
 $commandItemLoados = new \Kendo\UI\GridColumnCommandItem();
 $commandItemLoados ->name('load')
@@ -1030,12 +1026,15 @@ $commandSave->addCommandItem($commandItemDestros)
 
 $saveToolbarCommand = new \Kendo\UI\GridToolbarItem('SaveCommand');
 $saveToolbarCommand -> name('SaveCommand')
-                    -> text('Сохранить предложение');
+                    ->template('<a class="k-button" href="\\#" onclick="SaveCommand()">Сохранить предложение</a>');
+
+$saveChangesToolbarCommand = new \Kendo\UI\GridToolbarItem('save');
+$saveChangesToolbarCommand -> text('Сохранить изменения');
 
 $gridSave->addColumn($productNameSave, $unitPriceSave, $unitsInStockSave, $commandSave)
      ->dataSource($dataSourceSave)
-     ->addToolbarItem($saveToolbarCommand)
-     ->height(400)
+     ->addToolbarItem($saveToolbarCommand, $saveChangesToolbarCommand)
+     ->height(600)
      ->navigatable(true)
      ->editable(true)
      ->pageable(true);
@@ -1216,7 +1215,39 @@ $window->title('Загрузка товара')
 
 <!-- Конец вслывающего окна загрузки товаров -->
 
+<?php
 
+
+$window = new \Kendo\UI\Window('windowSave');
+
+$LoadKpPositionos = new \Kendo\UI\WindowPosition;
+$LoadKpPositionos ->top('30%')
+                  ->left('35%');
+
+$window->title('Введите название для сохранения')
+       ->width('350px')
+       ->visible(false)
+       ->position($LoadKpPositionos)
+       ->startContent();
+?>
+	<h4>Введите название для сохранения</h4>
+  <div id="forErrorSave"></div>
+  <br/>
+   <input type="text" id="savename"/>
+
+   <?php
+
+                echo (new \Kendo\UI\Button('saveButton'))
+                    ->content('Сохранить')
+                    ->click('saveValidation')                    
+                    ->render();
+            ?>
+
+<?php
+    $window->endContent();
+
+    echo $window->render();
+?>
 
 
 
@@ -1508,11 +1539,6 @@ if (summ != '' && summ != undefined) {
   function UpperSelectsChange(e){
 
 var dataGrid = $("#grid").data("kendoGrid");
-
-//console.log($('#kat')[0].value + $('input[name="kat_input"]').val());
-//console.log($('#podkat')[0].value + $('input[name="podkat_input"]').val());
-//console.log($('#brand')[0].value + $('input[name="brand_input"]').val());
-
 
 
 var catVal = $('input[name="kat_input"]').val();
@@ -1968,49 +1994,42 @@ return itogSumm;
   }        
 
   function SaveCommand(){
-    alert('test');
+    
+    $('#windowSave').data('kendoWindow').open();
 
   }                 
                 
-                    
+  function saveValidation(){
+
+    if($('#savename').val() == ""){
+      $('#forErrorSave')[0].innerText = ""
+      $('#forErrorSave')[0].innerText = "Название не может быть пустым"
+    }
+    else if ($('#gridPopUp').data('kendoGrid').dataSource.data().length < 1){
+      $('#forErrorSave')[0].innerText = ""
+      $('#forErrorSave')[0].innerText = "Ваше КП не может быть пустым"
+    }
+    else{
+      var dataToSave = JSON.stringify($("#gridPopUp").data("kendoGrid").dataSource.data());
+      $('#grid3').data('kendoGrid').dataSource.add({"name": $('#savename').val() , "savedata":dataToSave, "linkos":"", dirty: true , "dirtyFields":{"id": true, "name": true, "savedata":true, "linkos":true }})
+
+      $('#grid3').data('kendoGrid').saveChanges()
+
+      $('#forErrorSave')[0].innerText = ""
+      $('#forErrorSave')[0].innerText = "Сохранение прошло успешно"
+
+      setTimeout(function(){$('#windowSave').data('kendoWindow').close();},1000);
+
+      // $('#windowSave').data('kendoWindow').close();
+      $('#savename').val("");
+
+    }
+
+  }     
  
-/*
-    $('#loadpopup').click(function() {
-
-      if (window.state == 0) {
-
-        $('#popupWindow').fadeIn(50, function(){   
-          $('#popupWindow').css('top','0') 
-          $('#popupWrap').css('backgroundColor','rgba(1,1,1,0.725)')
-
-
-          window.state = 1    
-
-
-        }) 
-      }
-
-      else if (window.state == 1) {
-
-        $('#popupWindow').fadeOut(300, function(){   
-          $('#popupWrap').css('backgroundColor','white')
-          $('#popupWindow').css('top','-9000')  
-
-          window.state = 0   
-
-
-
-        })
-
-      }
-    })
-
-  */
-
 
 
   </script>
-
 
 
 </body>
