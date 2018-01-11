@@ -897,6 +897,7 @@ $LoadKpPosition ->top('200px');
 
 $window->title('Загрузить КП')
        ->width('800px')
+       ->visible(false)
        ->close('onClose')
        ->position($LoadKpPosition)
        ->startContent();
