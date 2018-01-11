@@ -1811,16 +1811,24 @@ alert('Пожалуйста, укажите количество!')
 
 function ajaxToGoogle(){
 
-var dataToSend = $('#gridPopUp').data('kendoGrid').dataSource.data();
+var dataFeed = $('#gridPopUp').data('kendoGrid').dataSource.data();
+var datatosend = [];
+datatosend['data'] = [];
+datatosend['otherinfo'] = [];
+
+dataFeed.forEach(function(param){
+  datatosend['data'].push(param);
+});
+
 var url = "https://script.google.com/macros/s/AKfycbyqkkIeVqADK9etQpXQJXH6J2vG-2jdy2sz6Gxd_ss0ybhcouR6/exec";
 
-console.log(JSON.stringify(dataToSend));
+console.log({data : JSON.stringify(datatosend.data), otherinfo: JSON.stringify(datatosend.otherinfo)});
 
   $.ajax({
     url: "googleTransport.php"  ,
     type: "POST",       // указываем URL и
     dataType : "html",
-    data: ({ data: JSON.stringify(dataToSend) }) ,
+    data: ({data : JSON.stringify(datatosend.data), otherinfo: JSON.stringify(datatosend.otherinfo)}) ,
     success: function(asd){
       console.log(asd);
     }
