@@ -1826,7 +1826,7 @@ console.log({"data" : JSON.stringify(datatosend.data) + JSON.stringify(datatosen
 
   $.ajax({
     url: "googleTransport.php"  ,
-    type: "POST",       // указываем URL и 
+    type: "POST",       // указы ваем URL и 
     dataType : "html",
     data: ({"data" : JSON.stringify(datatosend.data) + JSON.stringify(datatosend.otherinfo)} ),
     success: function(asd){
