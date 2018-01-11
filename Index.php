@@ -174,8 +174,6 @@ function show(state){
   $("#grid").data("kendoGrid").clearSelection()        
 }
 
-//<img class="close" onclick="show('none')" src="http://sergey-oganesyan.ru/wp-content/uploads/2014/01/close.png">
-      
 </script>
    
 
@@ -525,15 +523,7 @@ function show(state){
 
            <?php
            #endregion
-    
-        /*   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-            if(isset($_POST["refresh"])){
-              require_once 'lib/DataSourceResult.php';
-             require_once 'lib/Kendo/Autoload.php';
-             }
-
-           }*/
           
            require_once 'lib/DataSourceResult.php';
            require_once 'lib/Kendo/Autoload.php';
@@ -937,7 +927,6 @@ $updateSave = new \Kendo\Data\DataSourceTransportUpdate();
 
 $updateSave->url('../ajaxInfo/saveloadproposal.php?type=update')
      ->contentType('application/json')
-     ->dataType("json")
      ->type('POST');
 
 $destroySave = new \Kendo\Data\DataSourceTransportDestroy();
@@ -994,7 +983,7 @@ $gridSave = new \Kendo\UI\Grid('grid3');
 
 $productIdSave = new \Kendo\UI\GridColumn();
 $productIdSave->field('id')
-            ->title('Айдиха');
+            ->title('ID');
 
 $productNameSave = new \Kendo\UI\GridColumn();
 $productNameSave->field('name')
@@ -1008,17 +997,44 @@ $unitsInStockSave = new \Kendo\UI\GridColumn();
 $unitsInStockSave->field('linkos')
           ->title('Ссылка в гугл');
 
+$jsCommandResave = new \Kendo\JavaScriptFunction('ReSaveCommand');
+$jsCommandLoad = new \Kendo\JavaScriptFunction('LoadCommand');
 
 
+$commandItemEdit = new \Kendo\UI\GridColumnCommandItem();
+$commandItemEdit ->name('destroy')
+                  ->text('Удалить')
+                  ->click('');
+
+$commandItemLoados = new \Kendo\UI\GridColumnCommandItem();
+$commandItemLoados ->name('load')
+                    ->text('Загрузить')
+                    ->click($jsCommandLoad);
+
+
+$commandItemResavos = new \Kendo\UI\GridColumnCommandItem();
+$commandItemResavos ->name('resave')
+                    ->text('Перезаписать')
+                    ->click($jsCommandResave);
+
+
+$commandItemDestros = new \Kendo\UI\GridColumnCommandItem();
+$commandItemDestros ->name('destroy')
+                    ->text('Удалить');
 
 $commandSave = new \Kendo\UI\GridColumn();
-$commandSave->addCommandItem('destroy')
-        ->width(180);
+$commandSave->addCommandItem($commandItemDestros)
+            ->addCommandItem($commandItemResavos)
+            ->addCommandItem($commandItemLoados)
+            ->width(180);
+
+$saveToolbarCommand = new \Kendo\UI\GridToolbarItem('SaveCommand');
+$saveToolbarCommand -> name('SaveCommand')
+                    -> text('Сохранить предложение');
 
 $gridSave->addColumn($productNameSave, $unitPriceSave, $unitsInStockSave, $commandSave)
      ->dataSource($dataSourceSave)
-     ->addToolbarItem(new \Kendo\UI\GridToolbarItem('create'),
-        new \Kendo\UI\GridToolbarItem('save'), new \Kendo\UI\GridToolbarItem('cancel'))
+     ->addToolbarItem($saveToolbarCommand)
      ->height(400)
      ->navigatable(true)
      ->editable(true)
@@ -1876,6 +1892,7 @@ else{
 
 
 function calculatePercent(percentVal, summ){
+ if(percentVal !== undefined){
   summ = String(summ);
 
 if (summ != '' && summ != undefined) {
@@ -1912,7 +1929,7 @@ if (summ != '' && summ != undefined) {
 
   }
 return itogSumm;
-
+}
 // Выводим итоговую скидку
 
 }
@@ -1927,6 +1944,35 @@ return itogSumm;
   itogSumm = String(itogSumm).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ')
   itogSumm = itogSumm.replace(".",",");
    }
+
+   function ReSaveCommand(e){  
+     
+  var dataToSave = $("#gridPopUp").data("kendoGrid").dataSource.data();
+   e.preventDefault();
+   var tr = $(e.target).closest("tr"); 
+   var data = this.dataItem(tr);
+   console.log(data);
+   data.savedata = JSON.stringify(dataToSave);
+   data.dirty = true;
+   $("#grid3").data("kendoGrid").dataSource.sync();
+   
+  }     
+
+  function LoadCommand(e){
+    e.preventDefault();
+    var tr = $(e.target).closest("tr");
+    var data = this.dataItem(tr);
+
+    var loadData = JSON.parse(data.savedata);
+    $("#gridPopUp").data("kendoGrid").dataSource.data(loadData)
+  }        
+
+  function SaveCommand(){
+    alert('test');
+
+  }                 
+                
+                    
  
 /*
     $('#loadpopup').click(function() {
