@@ -18,6 +18,14 @@
     } 
     else
     {
+
+      // ЗАПРОС МЕНЕДЖЕРСКИХ ДАННЫХ
+
+
+
+        // !ЗАПРОС МЕНЕДЖЕРСКИХ ДАННЫХ!
+
+
       echo "<div class='hello'>".$userdata['fio']."</div>";
     }
   }
@@ -29,7 +37,15 @@
 // 
 #endregion
  #region
+
+
+
+
 ?>
+
+
+
+
 
 <!DOCTYPE HTML PUBLIC>
 <html>
@@ -62,6 +78,14 @@
 <body>
 
  
+
+
+
+
+
+
+
+
 
 
 
@@ -1819,21 +1843,50 @@ datatosend['otherinfo'] = [];
 dataFeed.forEach(function(param){
   datatosend['data'].push(param);
 });
-datatosend['otherinfo'].push({Managername:"Volodya"});
+
 var url = "https://script.google.com/macros/s/AKfycbyqkkIeVqADK9etQpXQJXH6J2vG-2jdy2sz6Gxd_ss0ybhcouR6/exec";
 
-console.log({"data" : JSON.stringify(datatosend.data) + JSON.stringify(datatosend.otherinfo)} );
+// console.log({"data" : JSON.stringify(datatosend.data) + JSON.stringify(datatosend.otherinfo)} );
+var name = encodeURIComponent($('.hello').html())
+// alert (name)
 
-  $.ajax({
-    url: "googleTransport.php"  ,
+
+
+$.ajax({
+    url: "man.php"  ,
     type: "POST",       // указы ваем URL и 
-    dataType : "html",
-    data: ({"data" : JSON.stringify(datatosend.data) + JSON.stringify(datatosend.otherinfo)} ),
-    success: function(asd){
-      console.log(asd);
-    }
+    dataType : "JSON",
+    data: ({manData : name}),
+    success: function(managerData){
+      
 
-});
+      
+      manF = managerData.fio
+      manE = managerData.email
+      manT1 = managerData.tel1
+      manT2 = managerData.tel2
+
+      datatosend['otherinfo'].push({Managername:manF, ManagerEmail:manE, ManagerTel1:manT1, ManagerTel2:manT2});
+      
+
+              $.ajax({
+            url: "googleTransport.php"  ,
+            type: "POST",       // указы ваем URL и 
+            dataType : "html",
+            data: ({data : encodeURIComponent(JSON.stringify(datatosend.data)) + encodeURIComponent(JSON.stringify(datatosend.otherinfo)) }),
+            success: function(url){
+              console.log(url);
+            }
+
+        });
+
+      
+
+      }
+
+  });
+
+
 
 }
 
