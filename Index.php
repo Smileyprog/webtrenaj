@@ -371,11 +371,11 @@ function show(state){
             <table>
               <tr>
               <td>Курс Доллара </td> 
-              <td><input type="text" class="dol"><span></td>
+              <td><input type="text" id="dol" class="dol"><span></td>
               </tr>
               <tr>
               <td>Курс Евро </td> 
-              <td><input type="text" class="eur"><span></td>
+              <td><input type="text" id="eur" class="eur"><span></td>
               </tr>
             </table>
             <div class="refCursDiv">
@@ -1848,7 +1848,8 @@ var url = "https://script.google.com/macros/s/AKfycbyqkkIeVqADK9etQpXQJXH6J2vG-2
 
 // console.log({"data" : JSON.stringify(datatosend.data) + JSON.stringify(datatosend.otherinfo)} );
 var name = encodeURIComponent($('.hello').html())
-// alert (name)
+var usd = $('#dol').val()
+var eur = $('#eur').val()
 
 
 
@@ -1866,7 +1867,7 @@ $.ajax({
       manT1 = managerData.tel1
       manT2 = managerData.tel2
 
-      datatosend['otherinfo'].push({Managername:manF, ManagerEmail:manE, ManagerTel1:manT1, ManagerTel2:manT2});
+      datatosend['otherinfo'].push({Managername:manF, ManagerEmail:manE, ManagerTel1:manT1, ManagerTel2:manT2, cursUsd:usd, cursEur:eur});
       
 
               $.ajax({
